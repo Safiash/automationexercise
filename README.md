@@ -25,10 +25,10 @@ source venv/bin/activate
 ```
 
 ## Dependencies
-Install dependencies from `requirements.txt` and initialize #mikä
+Install dependencies from `requirements.txt` ä
 
 ```bash
-# tähän command
+pip install -r requirements.txt
 ```
 
 # Secrets for login and api key are stored in .env 

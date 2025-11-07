@@ -3,6 +3,21 @@ __pycache__/
 *.py[codz]
 *$py.class
 
+venv/
+.env
+.venv/
+env/
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Robot Framework output
+results/
+*log.html
+*report.html
+*output.xml
+*playwright-log.txt
+
 # C extensions
 *.so
 
