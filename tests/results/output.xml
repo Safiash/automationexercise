@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.3.2 (Python 3.14.0 on win32)" generated="2025-11-07T11:35:05.778919" rpa="false" schemaversion="5">
+<suite id="s1" name="Test" source="C:\Users\JussiJokinen_k5ltbdd\automationexercise\tests\test.robot">
+<test id="s1-t1" name="Open Home Page And Verify" line="5">
+<kw name="Open Home Page">
+<msg time="2025-11-07T11:35:05.945228" level="FAIL">No keyword with name 'Open Home Page' found.</msg>
+<status status="FAIL" start="2025-11-07T11:35:05.945186" elapsed="0.000090">No keyword with name 'Open Home Page' found.</status>
+</kw>
+<kw name="Is Home Page Loaded">
+<status status="NOT RUN" start="2025-11-07T11:35:05.945466" elapsed="0.000021"/>
+</kw>
+<kw name="Is Featured Items Visible">
+<status status="NOT RUN" start="2025-11-07T11:35:05.945597" elapsed="0.000012"/>
+</kw>
+<doc>Open the Automation Exercise home page and check main elements</doc>
+<status status="FAIL" start="2025-11-07T11:35:05.944155" elapsed="0.001591">No keyword with name 'Open Home Page' found.</status>
+</test>
+<test id="s1-t2" name="Click Test Cases Button" line="11">
+<kw name="Open Home Page">
+<msg time="2025-11-07T11:35:05.947139" level="FAIL">No keyword with name 'Open Home Page' found.</msg>
+<status status="FAIL" start="2025-11-07T11:35:05.947113" elapsed="0.000061">No keyword with name 'Open Home Page' found.</status>
+</kw>
+<kw name="Click Test Cases">
+<status status="NOT RUN" start="2025-11-07T11:35:05.947355" elapsed="0.000013"/>
+</kw>
+<status status="FAIL" start="2025-11-07T11:35:05.946352" elapsed="0.001164">No keyword with name 'Open Home Page' found.</status>
+</test>
+<status status="FAIL" start="2025-11-07T11:35:05.780131" elapsed="0.168058"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="2" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="Test" id="s1" pass="0" fail="2" skip="0">Test</stat>
+</suite>
+</statistics>
+<errors>
+<msg time="2025-11-07T11:35:05.943305" level="WARN">Imported library 'C:\Users\JussiJokinen_k5ltbdd\automationexercise\library\home_page.py' contains no keywords.</msg>
+</errors>
+</robot>
