@@ -1,19 +1,18 @@
+# pages/home_page.py
 from robot.api.deco import keyword
 from SeleniumLibrary import SeleniumLibrary
 
-class HomePage:
+class HomePageLocators:
+    BASE_URL = "https://automationexercise.com/"
+    LOGO = 'xpath://img[@alt="Automation Exercise"]'
+    HOME_LINK = 'xpath://a[normalize-space()="Home"]'
+    TEST_CASES_BUTTON = 'xpath://a[contains(.,"Test Cases") and contains(@class,"btn-success")]'
+    FEATURED_ITEMS_TITLE = 'xpath://h2[contains(.,"FEATURES ITEMS")]'
+
+class home_page:
     def __init__(self):
         self.selib = SeleniumLibrary()
-
-    BASE_URL = "https://automationexercise.com/"
-
-    LOGO = "xpath://img[@alt='Automation Exercise']"
-    HOME_LINK = "xpath://a[contains(.,'Home')]"
-    PRODUCTS_LINK = "xpath://a[contains(.,'Products')]"
-    SIGNUP_LOGIN_LINK = "xpath://a[contains(.,'Signup / Login')]"
-    TEST_CASES_BUTTON = "xpath://a[contains(.,'Test Cases') and contains(@class,'btn-success')]"
-    API_LIST_BUTTON = "xpath://a[contains(.,'APIs list for practice')]"
-    FEATURED_ITEMS_TITLE = "xpath://h2[contains(.,'FEATURES ITEMS')]"
+        self.loc = HomePageLocators
 
     @keyword
     def open_home_page(self):
