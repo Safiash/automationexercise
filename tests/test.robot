@@ -1,14 +1,21 @@
 *** Settings ***
 Library    SeleniumLibrary
-Library    ../pages/home_page.py
-Suite Teardown    Close All Browsers
+Library    ../pages/HomePage.py
+
 
 *** Test Cases ***
 
 Open Home Page And Verify
-    Open Home Page    chrome
+    [Documentation]    Open the Automation Exercise home page and check main elements
+    Open Home Page
+    Consent Cookies
     Is Home Page Loaded
     Is Featured Items Visible
+    Close Browser
 
 Click Test Cases Button
+    [Documentation]    Open the Automation Exercise home page and check main elements
+    Open Home Page
+    Consent Cookies
     Click Test Cases
+    Close Browser
