@@ -3,6 +3,8 @@ from robot.libraries.BuiltIn import BuiltIn, RobotNotRunningError
 
 
 class Common:
+    BASE_URL = "https://automationexercise.com/"
+    
     class CommonLocators:
         CONSENT_COOKIES_FRONTPAGE = "//button[@aria-label='Consent']"
 
