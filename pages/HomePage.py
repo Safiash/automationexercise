@@ -15,7 +15,7 @@ class HomePage(Common):
 
     @keyword
     def open_home_page(self):
-        self.open_browser(self.HomePageLocators.BASE_URL, browser="chrome")
+        self.open_url()
 
     @keyword
     def click_home(self):
