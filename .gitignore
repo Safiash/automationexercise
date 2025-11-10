@@ -4,6 +4,21 @@ __pycache__/
 *$py.class
 *results
 
+venv/
+.env
+.venv/
+env/
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Robot Framework output
+results/
+*log.html
+*report.html
+*output.xml
+*playwright-log.txt
+
 # C extensions
 *.so
 

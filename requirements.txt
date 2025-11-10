@@ -3,3 +3,4 @@ robotframework-browser
 robotframework-pabot
 robotframework-seleniumlibrary
 pandas
+python-dotenv
