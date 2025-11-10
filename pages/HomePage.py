@@ -5,7 +5,6 @@ from Common import Common
 class HomePage(Common):
 
     class HomePageLocators:
-        BASE_URL = "https://automationexercise.com/"
         HOME_LINK = "//a[normalize-space()='Home']"
         PRODUCTS_LINK = "//a[@href='/products']"
         SIGNUP_LOGIN_LINK = "//a[normalize-space()='Signup / Login']"

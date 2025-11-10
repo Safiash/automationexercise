@@ -1,10 +1,10 @@
 *** Settings ***
+
 Library    SeleniumLibrary
 Library    ../pages/HomePage.py
 
 
 *** Test Cases ***
-
 Open Home Page And Verify
     [Documentation]    Open the Automation Exercise home page and check main elements
     Open Home Page
