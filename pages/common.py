@@ -6,6 +6,7 @@ class Common:
 
     class CommonLocators:
         CONSENT_COOKIES_FRONTPAGE = "//button[@aria-label='Consent']"
+        SIGNUP_LOGIN_LINK = "//a[normalize-space()='Signup / Login']"
 
     def __init__(self):
         try:
@@ -29,6 +30,14 @@ class Common:
         browser = browser or self.default_browser
         self._selib().open_browser(url, browser=browser)
         self._selib().maximize_browser_window()
+
+    @keyword
+    def open_home_page(self):
+        self.open_browser(self.BASE_URL, browser="chrome")
+
+    @keyword
+    def open_home_page(self):
+        self.open_browser(self.BASE_URL, browser="chrome")
 
     @keyword
     def get_page_title(self):
