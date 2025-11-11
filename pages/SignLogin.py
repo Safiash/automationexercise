@@ -2,7 +2,6 @@ import random
 import string
 from robot.api.deco import keyword
 from robot.libraries.BuiltIn import BuiltIn, RobotNotRunningError
-#from HomePage import HomePage
 
 
 class SignLogin:
@@ -37,14 +36,20 @@ class SignLogin:
 
     @keyword
     def generate_random_credentials(self):
+        """Luo random kahdeksan merkkisen käyttäjänimen ja käyttää sitä myös sähköpostissa"""
         username = ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
         email = f"{username}@example.com"
         return username, email
 
     @keyword
     def fill_signup_form(self, name, email):
+        """Täyttää kirjautumissivulla nimen, sähköpostin"""
         self.selib.input_text(self.SignLoginLocators.SIGN_UP_NAME, name)
         self.selib.input_text(self.SignLoginLocators.SIGN_UP_EMAIL, email)
+
+    @keyword
+    def press_sign_up_button(self):
+        """Painaa Sign Up -nappia"""
         self.selib.click_element(self.SignLoginLocators.SIGN_UP_BUTTON)
 
     

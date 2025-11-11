@@ -9,9 +9,9 @@ Library    ../pages/HomePage.py
 Sign Up New User
     [Documentation]    Test for signing up a new user
     Open Home Page
-    Consent Cookies
-    Click Sign Up Login
-    ${username}    ${email}=    SignLogin.Generate Random Credentials
-    SignLogin.Fill Signup Form    ${username}    ${email}
+    Press Consent Cookies Button
+    Click Sign Up Login Link From Homepage
+    ${username}    ${email}=    Generate Random Credentials
+    Fill Signup Form    ${username}    ${email}
     #Jutta
     
