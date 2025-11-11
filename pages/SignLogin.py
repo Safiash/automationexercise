@@ -28,4 +28,13 @@ class SignLogin(Common):
         self.selib.input_text(self.SignLoginLocators.SIGN_UP_EMAIL, email)
         self.selib.click_element(self.SignLoginLocators.SIGN_UP_BUTTON)
 
+    @keyword
+    def fill_signup_form_with_random_user(self):
+        """Use two keywords from above to create random user sign up"""
+        username, email = self.generate_random_credentials()
+        self.fill_signup_form(username, email)
+        return username, email
+
+    
+
     
