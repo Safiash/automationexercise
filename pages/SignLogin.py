@@ -1,10 +1,11 @@
 import random
 import string
 from robot.api.deco import keyword
-from Common import Common
+from robot.libraries.BuiltIn import BuiltIn, RobotNotRunningError
+#from HomePage import HomePage
 
 
-class SignLogin(Common):
+class SignLogin:
 
     class SignLoginLocators:
         LOGIN_YOUR_ACCOUNT_TEXT = "//h2[normalize-space()='Login to your account']"
@@ -15,6 +16,24 @@ class SignLogin(Common):
         SIGN_UP_NAME = "//input[@placeholder='Name']"
         SIGN_UP_EMAIL = "//input[@data-qa='signup-email']"
         SIGN_UP_BUTTON = "//button[normalize-space()='Signup']"
+
+    def __init__(self):
+        try:
+            self.selib = BuiltIn().get_library_instance("SeleniumLibrary")
+        except RobotNotRunningError:
+            self.selib = None
+        
+        # Oletusarvot asetetaan tässä. ÄLÄ lue Robot-muuttujia __init__:ssä.
+        self.base_url = "https://automationexercise.com/"
+        self.default_browser = "chrome"
+
+    def _selib(self):
+        if not self.selib:
+            self.selib = BuiltIn().get_library_instance("SeleniumLibrary")
+        return self.selib
+
+    def __getattr__(self, name):
+        return getattr(self._selib(), name)
 
     @keyword
     def generate_random_credentials(self):
