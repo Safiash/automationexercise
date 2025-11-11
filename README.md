@@ -1,8 +1,12 @@
-# automationexercise
-
 # Automation Exercise Tests
 
+![Logo](docs/logo.jpg)
+
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
+
+![License](https://img.shields.io/badge/license-MIT-blue)
+
+![Robot Framework](https://img.shields.io/badge/robot--framework-7.1-green)
 
 This repository contains automated tests for the Automation Exercise web application. It uses #MITÄ together with the #MITÄ to run tests against the test environment. 
 
@@ -10,26 +14,31 @@ This repository contains automated tests for the Automation Exercise web applica
 ## Virtual environment
 Create virtual environment
 
-```bash
+```
 python -m venv venv
 ```
 
 Activate virtual environment on Windows
 
-```bash
+```
 venv\Scripts\activate
 ```
 Activate virtual environment on Linux / macOS 
-```bash
+```
 source venv/bin/activate
 ```
 
-## Dependencies
-Install dependencies from `requirements.txt` ä
+Install dependencies from `requirements.txt` 
 
-```bash
+```
 pip install -r requirements.txt
 ```
+
+Then run
+
+````
+rfbrowser init
+````
 
 # Secrets for login and api key are stored in .env 
 # PITÄÄ MUOKATA! TÄÄ ON KOPIOITU VIBECATCHISTA
@@ -42,13 +51,14 @@ POLL_API=api/v1/feedbacks?apiKey=<YOUR_API_KEY>
 
 # Running tests locally
 
-Run all tests using command
+Run tests with command
+````
+robot -d results ADD_YOUR_TEST_NAME_HERE
+````
 
-```bash
-# tähän command
-```
+````
 📂 Test results will be saved in the results/ folder.
-
+````
 Run all tests with tag 'smoke' using command
 
 ```bash

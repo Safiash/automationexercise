@@ -14,10 +14,6 @@ class HomePage(Common):
         LOGO = "//img[@alt='Website for automation practice']"
 
     @keyword
-    def open_home_page(self):
-        self.open_browser(self.HomePageLocators.BASE_URL, browser="chrome")
-
-    @keyword
     def click_home(self):
         self.click_element(self.HomePageLocators.HOME_LINK)
 
