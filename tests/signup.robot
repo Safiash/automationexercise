@@ -1,9 +1,9 @@
 *** Settings ***
 
 Library    SeleniumLibrary
-Library    ../pages/HomePage.py
 Library    ../pages/SignLogin.py
-Variables    ../resource/variables/env_vars.py
+Library    ../pages/HomePage.py
+
 
 *** Test Cases ***
 Sign Up New User

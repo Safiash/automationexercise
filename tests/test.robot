@@ -6,16 +6,19 @@ Library    ../pages/HomePage.py
 
 *** Test Cases ***
 Open Home Page And Verify
-    [Documentation]    Open the Automation Exercise home page and check main elements
+    [Documentation]    Open the Automation Exercise home page and check if page is loaded
     Open Home Page
-    Consent Cookies
-    Is Home Page Loaded
-    Is Featured Items Visible
+    Press Consent Cookies Button
+    Check Is Home Page Loaded
+    Check Is Featured Items Visible
     Close Browser
 
 Click Test Cases Button
-    [Documentation]    Open the Automation Exercise home page and check main elements
+    [Documentation]    Open the Automation Exercise home page and check main links
     Open Home Page
-    Consent Cookies
-    Click Test Cases
+    Press Consent Cookies Button
+    Click Products Link From Homepage
+    Click Test Cases Link From Homepage
+    Click Api Testing From Homepage
+    Click Home Link From Homepage
     Close Browser
