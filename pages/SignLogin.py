@@ -7,6 +7,7 @@ from robot.libraries.BuiltIn import BuiltIn, RobotNotRunningError
 class SignLogin:
 
     class SignLoginLocators:
+        LOGIN_LINK = "//a[normalize-space()='Signup / Login']"
         LOGIN_YOUR_ACCOUNT_TEXT = "//h2[normalize-space()='Login to your account']"
         LOGIN_EMAIL = "//input[@data-qa='login-email']"
         LOGIN_PASSWORD = "//input[@placeholder='Password']"
@@ -35,6 +36,27 @@ class SignLogin:
     def __getattr__(self, name):
         return getattr(self._selib(), name)
 
+    # ===================================================
+    #           --- YLÄTASON AVAINSANAT ---
+    # ===================================================
+
+    @keyword
+    def login_as_valid_user(self, email, password):
+        """
+        Suorittaa koko sisäänkirjautumisprosessin etusivulta 
+        ja varmistaa onnistumisen.
+        """
+        self.click_element(self.SignLoginLocators.LOGIN_LINK)
+        self.wait_until_element_is_visible(self.SignLoginLocators.LOGIN_YOUR_ACCOUNT_TEXT, timeout='5s')
+        self.fill_login_form(email, password)
+        self.press_login_button()
+        self.verify_login()
+
+    # ===================================================
+    #           --- ALATASON AVAINSANAT ---
+    # ===================================================
+
+
     @keyword
     def generate_random_credentials(self):
         """Luo random kahdeksan merkkisen käyttäjänimen ja käyttää sitä myös sähköpostissa"""
@@ -44,7 +66,7 @@ class SignLogin:
 
     @keyword
     def fill_signup_form(self, name, email):
-        """Täyttää kirjautumissivulla nimen, sähköpostin"""
+        """Täyttää kirjautumissivulla nimen ja sähköpostin"""
         self.selib.input_text(self.SignLoginLocators.SIGN_UP_NAME, name)
         self.selib.input_text(self.SignLoginLocators.SIGN_UP_EMAIL, email)
 
