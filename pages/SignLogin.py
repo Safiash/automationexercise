@@ -11,6 +11,7 @@ class SignLogin:
         LOGIN_EMAIL = "//input[@data-qa='login-email']"
         LOGIN_PASSWORD = "//input[@placeholder='Password']"
         LOGIN_BUTTON = "//button[normalize-space()='Login']"
+        LOG_OUT_BUTTON = "//a[normalize-space()='Logout']"
 
         SIGN_UP_NAME = "//input[@placeholder='Name']"
         SIGN_UP_EMAIL = "//input[@data-qa='signup-email']"
@@ -52,4 +53,39 @@ class SignLogin:
         """Painaa Sign Up -nappia"""
         self.selib.click_element(self.SignLoginLocators.SIGN_UP_BUTTON)
 
-    
+    @keyword
+    def fill_login_form(self, email, password):
+        """Täyttää kirjautumissivulla sähköpostin ja salasanan"""
+        self.selib.input_text(self.SignLoginLocators.LOGIN_EMAIL, email)
+        self.selib.input_text(self.SignLoginLocators.LOGIN_PASSWORD, password)
+
+    @keyword
+    def press_login_button(self):
+        """Painaa Login-nappia"""
+        self.click_element(self.SignLoginLocators.LOGIN_BUTTON)
+
+    @keyword
+    def verify_login(self):
+        """Varmistaa että login onnistui"""
+        self.wait_until_element_is_visible(self.SignLoginLocators.LOG_OUT_BUTTON, timeout='5s')
+
+    @keyword
+    def press_logout_button(self):
+        """Painaa Logout-nappia"""
+        self.click_element(self.SignLoginLocators.LOG_OUT_BUTTON)
+        self.wait_until_element_is_visible(self.SignLoginLocators.LOGIN_YOUR_ACCOUNT_TEXT, timeout='5s')
+
+    @keyword
+    def check_login_error_message_is_visible(self):
+        """Tarkistaa että virheilmoitus on näkyvissä"""
+        self.wait_until_page_contains("Your email or password is incorrect!", timeout='5s')
+
+    @keyword
+    def check_please_fill_all_fields_message_is_visible(self, expected_message="Please fill out this field."):
+        """Tarkistaa että 'Please fill all fields!' -viesti on näkyvissä"""
+        message = self.get_element_attribute(
+            self.SignLoginLocators.LOGIN_EMAIL, 
+            "validationMessage"
+        )
+        builtin = BuiltIn()
+        builtin.should_be_equal_as_strings(message, expected_message)

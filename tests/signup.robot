@@ -14,5 +14,6 @@ Sign Up New User
     Click Sign Up Login Link From Homepage
     ${username}    ${email}=    Generate Random Credentials
     Fill Signup Form    ${username}    ${email}
+    Press Sign Up Button
     #Jutta
     
