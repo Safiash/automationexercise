@@ -69,6 +69,7 @@ class HomePage:
     def open_home_page(self):
         """Avaa määritellyn kotisivun"""
         self.open_url()
+        self.press_consent_cookies_button()
 
     @keyword
     def click_home_link_from_homepage(self):
