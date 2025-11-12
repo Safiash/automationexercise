@@ -8,10 +8,12 @@ from selenium.common.exceptions import ElementClickInterceptedException
 class SignLogin:
 
     class SignLoginLocators:
+        LOGIN_LINK = "//a[normalize-space()='Signup / Login']"
         LOGIN_YOUR_ACCOUNT_TEXT = "//h2[normalize-space()='Login to your account']"
         LOGIN_EMAIL = "//input[@data-qa='login-email']"
         LOGIN_PASSWORD = "//input[@placeholder='Password']"
         LOGIN_BUTTON = "//button[normalize-space()='Login']"
+        LOG_OUT_BUTTON = "//a[normalize-space()='Logout']"
 
         SIGN_UP_NAME = "//input[@placeholder='Name']"
         SIGN_UP_EMAIL = "//input[@data-qa='signup-email']"
@@ -70,6 +72,31 @@ class SignLogin:
     
     def gen_email(self, k=5):
         username = self.gen_username()
+    # ===================================================
+    #           --- YLÄTASON AVAINSANAT ---
+    # ===================================================
+
+    @keyword
+    def login_as_valid_user(self, email, password):
+        """
+        Suorittaa koko sisäänkirjautumisprosessin etusivulta 
+        ja varmistaa onnistumisen.
+        """
+        self.click_element(self.SignLoginLocators.LOGIN_LINK)
+        self.wait_until_element_is_visible(self.SignLoginLocators.LOGIN_YOUR_ACCOUNT_TEXT, timeout='5s')
+        self.fill_login_form(email, password)
+        self.press_login_button()
+        self.verify_login()
+
+    # ===================================================
+    #           --- ALATASON AVAINSANAT ---
+    # ===================================================
+
+
+    @keyword
+    def generate_random_credentials(self):
+        """Luo random kahdeksan merkkisen käyttäjänimen ja käyttää sitä myös sähköpostissa"""
+        username = ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
         email = f"{username}@example.com"
         return email
 
@@ -274,3 +301,38 @@ class SignLogin:
             "xpath=//p[normalize-space()='Email Address already exist!']",
             "5s"
         )
+    def fill_login_form(self, email, password):
+        """Täyttää kirjautumissivulla sähköpostin ja salasanan"""
+        self.selib.input_text(self.SignLoginLocators.LOGIN_EMAIL, email)
+        self.selib.input_text(self.SignLoginLocators.LOGIN_PASSWORD, password)
+
+    @keyword
+    def press_login_button(self):
+        """Painaa Login-nappia"""
+        self.click_element(self.SignLoginLocators.LOGIN_BUTTON)
+
+    @keyword
+    def verify_login(self):
+        """Varmistaa että login onnistui"""
+        self.wait_until_element_is_visible(self.SignLoginLocators.LOG_OUT_BUTTON, timeout='5s')
+
+    @keyword
+    def press_logout_button(self):
+        """Painaa Logout-nappia"""
+        self.click_element(self.SignLoginLocators.LOG_OUT_BUTTON)
+        self.wait_until_element_is_visible(self.SignLoginLocators.LOGIN_YOUR_ACCOUNT_TEXT, timeout='5s')
+
+    @keyword
+    def check_login_error_message_is_visible(self):
+        """Tarkistaa että virheilmoitus on näkyvissä"""
+        self.wait_until_page_contains("Your email or password is incorrect!", timeout='5s')
+
+    @keyword
+    def check_please_fill_all_fields_message_is_visible(self, expected_message="Please fill out this field."):
+        """Tarkistaa että 'Please fill all fields!' -viesti on näkyvissä"""
+        message = self.get_element_attribute(
+            self.SignLoginLocators.LOGIN_EMAIL, 
+            "validationMessage"
+        )
+        builtin = BuiltIn()
+        builtin.should_be_equal_as_strings(message, expected_message)

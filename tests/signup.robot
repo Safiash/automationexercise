@@ -21,6 +21,9 @@ Test Teardown     Close Browser
 ...           country=Australia  state=Queensland  city=Cairns  zip=00100
 ...           newsletter=${False}    special_offers=${True}
 
+Test Setup       Run Keywords    Open Home Page
+...              AND    Set Selenium Implicit Wait    10s
+Test Teardown    Close Browser
 
 *** Test Cases ***
 Create New User With Valid Default Values
