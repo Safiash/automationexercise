@@ -18,8 +18,8 @@ class HomePage:
         API_LIST_BUTTON = "//a[@href='/api_list']"
         # Categories locators
         WOMEN_CATEGORY = "//a[normalize-space()='Women']"
-        WOMEN_CATEGORY_DRESS = "//a[@href='/category_products/1']"
-        WOMEN_CATEGORY_TOPS = "//a[@href='/category_products/2']"
+        WOMEN_CATEGORY_DRESS = "//div[@id='Women']//a[contains(text(),'Dress')]"
+        WOMEN_CATEGORY_TOPS = "//a[normalize-space()='Tops']"
         WOMEN_CATEGORY_SAREES = "//a[normalize-space()='Saree']"
         MEN_CATEGORY = "//a[normalize-space()='Men']"
         MEN_CATEGORY_TSHIRTS = "//a[normalize-space()='Tshirts']"
@@ -29,7 +29,6 @@ class HomePage:
         KIDS_CATEGORY_TOPS = "//a[normalize-space()='Tops & Shirts']"
         
         
-
     def __init__(self):
         """Määrittää Selenium-kirjaston käytettäväksi myöhempää varten"""
         try:
