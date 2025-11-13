@@ -12,6 +12,6 @@ Click All Main Links From Home Page
     [Documentation]    Open the Automation Exercise home page and click all main links
     Click Products Link From Homepage
     Click Cart Link From Homepage
-    Click Test Cases Link From Homepage
-    Click Api Testing From Homepage
+    Click Signup Login Link From Homepage
+    Click Contact Us Link From Homepage
     Click Home Link From Homepage

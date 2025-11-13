@@ -11,13 +11,14 @@ Test Setup       Run Keywords    Open Home Page
 ...              AND    Set Selenium Implicit Wait    10s
 Test Teardown    Close Browser
 
+
 *** Test Cases ***
 Search For A Product
     [Documentation]    Open the Automation Exercise products page and search for a product
-    ${products_name}=    Set Variable    Fancy Green Top
-    Login As Valid User    ${EMAIL}    ${PASSWORD}
+    ${product_name}=        Set Variable    Fancy Green Top
+    Login As Valid User      ${EMAIL}    ${PASSWORD}
     Click Products Link From Homepage
-    Input Search Text        ${products_name}
+    Input Search Text        ${product_name}
     Click Search Button
-    Verify Search Results    ${products_name}
+    Verify Search Results    ${product_name}
 
