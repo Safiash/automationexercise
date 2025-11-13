@@ -1,17 +1,19 @@
 *** Settings ***
 
 Library    SeleniumLibrary
+Library    ../pages/SignLogin.py
 Library    ../pages/HomePage.py
+Library    ../pages/ProductsPage.py
+
+Variables    ../resource/variables/env_var.py
 
 Test Setup       Run Keywords    Open Home Page
 ...              AND    Set Selenium Implicit Wait    10s
 Test Teardown    Close Browser
 
+
 *** Test Cases ***
-Click All Main Links From Home Page
-    [Documentation]    Open the Automation Exercise home page and click all main links
+Add Products To Basket
+    [Documentation]    Open the products page and add products to basket
+    Login As Valid User      ${EMAIL}    ${PASSWORD}
     Click Products Link From Homepage
-    Click Cart Link From Homepage
-    Click Signup Login Link From Homepage
-    Click Contact Us Link From Homepage
-    Click Home Link From Homepage
