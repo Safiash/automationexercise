@@ -93,12 +93,12 @@ class SignLogin:
     # ===================================================
 
 
-    @keyword
-    def generate_random_credentials(self):
-        """Luo random kahdeksan merkkisen käyttäjänimen ja käyttää sitä myös sähköpostissa"""
-        username = ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
-        email = f"{username}@example.com"
-        return email
+    # @keyword
+    # def generate_random_credentials(self):
+    #     """Luo random kahdeksan merkkisen käyttäjänimen ja käyttää sitä myös sähköpostissa"""
+    #     username = ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
+    #     email = f"{username}@example.com"
+    #     return email
 
 
     @keyword
