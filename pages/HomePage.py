@@ -14,8 +14,9 @@ class HomePage:
         HOME_LINK = "//a[normalize-space()='Home']"
         CART_LINK = "//a[normalize-space()='Cart']"
         PRODUCTS_LINK = "//a[@href='/products']"
-        TEST_CASES_BUTTON = "//a[@href='/test_cases']"
-        API_LIST_BUTTON = "//a[@href='/api_list']"
+        TEST_CASES_LINK = "//a[@href='/test_cases']"
+        API_LIST_LINK = "//a[@href='/api_list']"
+        CONTACKT_US_LINK = "//a[normalize-space()='Contact us']"
         # Categories locators
         WOMEN_CATEGORY = "//a[normalize-space()='Women']"
         WOMEN_CATEGORY_DRESS = "//div[@id='Women']//a[contains(text(),'Dress')]"
@@ -115,6 +116,18 @@ class HomePage:
         """Klikkaa etusivulla olevaa Api Testing -linkkiä"""
         self.click_element(self.HomePageLocators.API_LIST_BUTTON)
         self.wait_until_page_contains("APIs List for practice", timeout="5s")
+
+    @keyword
+    def click_contact_us_link_from_homepage(self):
+        """Klikkaa etusivulla olevaa Contact Us -linkkiä"""
+        self.click_element(self.HomePageLocators.CONTACKT_US_LINK)
+        self.wait_until_page_contains("Get In Touch", timeout="5s")
+
+    @keyword
+    def click_signup_login_link_from_homepage(self):
+        """Klikkaa etusivulla olevaa Signup / Login -linkkiä"""
+        self.click_element(self.HomePageLocators.SIGNUP_LOGIN_LINK)
+        self.wait_until_page_contains("Login to your account", timeout="5s")
 
     @keyword
     def check_is_featured_items_visible(self):
