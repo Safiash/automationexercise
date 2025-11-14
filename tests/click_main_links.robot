@@ -8,7 +8,7 @@ Test Setup       Run Keywords    Open Home Page
 Test Teardown    Close Browser
 
 *** Test Cases ***
-Click All Main Links From Home Page
+TC015 Click All Main Links From Home Page
     [Documentation]    Open the Automation Exercise home page and click all main links
     Click Products Link From Homepage
     Click Cart Link From Homepage

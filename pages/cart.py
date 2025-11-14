@@ -23,7 +23,10 @@ class Cart:
 
     def __getattr__(self, name):
         return getattr(self._selib(), name)
-    
+
+    # ===================================================
+    #           --- YLÄTASON AVAINSANAT ---
+    # ===================================================    
 
     @keyword
     def proceed_to_checkout(self):

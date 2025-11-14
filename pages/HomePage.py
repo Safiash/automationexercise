@@ -5,19 +5,23 @@ from robot.libraries.BuiltIn import BuiltIn, RobotNotRunningError
 class HomePage:
     ROBOT_LIBRARY_SCOPE = "SUITE"
 
+    # ===================================================
+    #               --- LOKAATTORIT ---
+    # ===================================================
     class HomePageLocators:
+        # Yleiset lokaattorit
         CONSENT_COOKIES_FRONTPAGE = "//button[@aria-label='Consent']"
         FEATURED_ITEMS_TITLE = "//h2[normalize-space()='Features Items']"
         LOGO = "//img[@alt='Website for automation practice']"
-        # Header links locators
+        # Header lokaattorit
         SIGNUP_LOGIN_LINK = "//a[normalize-space()='Signup / Login']"
         HOME_LINK = "//a[normalize-space()='Home']"
         CART_LINK = "//a[normalize-space()='Cart']"
         PRODUCTS_LINK = "//a[@href='/products']"
         TEST_CASES_LINK = "//a[@href='/test_cases']"
         API_LIST_LINK = "//a[@href='/api_list']"
-        CONTACKT_US_LINK = "//a[normalize-space()='Contact us']"
-        # Categories locators
+        CONTACT_US_LINK = "//a[normalize-space()='Contact us']"
+        # Kategoria ja alikategoria lokaattorit
         WOMEN_CATEGORY = "//a[normalize-space()='Women']"
         WOMEN_CATEGORY_DRESS = "//div[@id='Women']//a[contains(text(),'Dress')]"
         WOMEN_CATEGORY_TOPS = "//a[normalize-space()='Tops']"
@@ -28,7 +32,10 @@ class HomePage:
         KIDS_CATEGORY = "//a[normalize-space()='Kids']"
         KIDS_CATEGORY_DRESSES = "//div[@id='Kids']//a[contains(text(),'Dress')]"
         KIDS_CATEGORY_TOPS = "//a[normalize-space()='Tops & Shirts']"
-        
+    
+    # ===================================================
+    #                   --- SETUP ---
+    # ===================================================
         
     def __init__(self):
         """Määrittää Selenium-kirjaston käytettäväksi myöhempää varten"""
@@ -49,6 +56,10 @@ class HomePage:
 
     def __getattr__(self, name):
         return getattr(self._selib(), name)
+    
+    # ===================================================
+    #           --- YLÄTASON AVAINSANAT ---
+    # ===================================================
 
     @keyword
     def open_url(self, url=None, browser=None):
@@ -70,16 +81,68 @@ class HomePage:
         self._selib().maximize_browser_window()
 
     @keyword
-    def get_page_title(self):
-        """Palauttaa sivun otsikon."""
-        return self._selib().get_title()
-
-    @keyword
     def open_home_page(self):
         """Avaa määritellyn kotisivun ja hyväksyy evästeet"""
         self.open_url()
         self._selib().wait_until_element_is_visible(self.HomePageLocators.CONSENT_COOKIES_FRONTPAGE, timeout="5s")
         self._selib().click_element(self.HomePageLocators.CONSENT_COOKIES_FRONTPAGE)
+
+    @keyword
+    def click_category_dress_from_women(self):
+        """Klikkaa alakategoriaa "Dress" Women -kategoriasta"""
+        self.click_category_women()
+        self.click_element(self.HomePageLocators.WOMEN_CATEGORY_DRESS)
+        self.wait_until_page_contains("Women - Dress Products", timeout="5s")
+
+    @keyword
+    def click_category_tops_from_women(self):
+        """Klikkaa alakategoriaa "Tops" Women -kategoriasta"""
+        self.click_category_women()
+        self.click_element(self.HomePageLocators.WOMEN_CATEGORY_TOPS)
+        self.wait_until_page_contains("Women - Tops Products", timeout="5s")
+
+    @keyword
+    def click_category_saree_from_women(self):
+        """Klikkaa alakategoriaa "Saree" Women -kategoriasta"""
+        self.click_category_women()
+        self.click_element(self.HomePageLocators.WOMEN_CATEGORY_SAREES)
+        self.wait_until_page_contains("Women - Saree Products", timeout="5s")   
+
+    @keyword
+    def click_category_tshirts_from_men(self):
+        """Klikkaa alakategoriaa "Tshirts" men -kategoriasta"""
+        self.click_category_men()
+        self.click_element(self.HomePageLocators.MEN_CATEGORY_TSHIRTS)
+        self.wait_until_page_contains("Men - Tshirts Products", timeout="5s")
+
+    @keyword
+    def click_category_jeans_from_men(self):
+        """Klikkaa alakategoriaa "Jeans" men -kategoriasta"""
+        self.click_category_men()
+        self.click_element(self.HomePageLocators.MEN_CATEGORY_JEANS)
+        self.wait_until_page_contains("Men - Jeans Products", timeout="5s")
+
+    @keyword
+    def click_category_dress_from_kids(self):
+        """Klikkaa alakategoriaa "Dress" Kids -kategoriasta"""
+        self.click_category_kids()
+        self.click_element(self.HomePageLocators.KIDS_CATEGORY_DRESSES)
+        self.wait_until_page_contains("Kids - Dress Products", timeout="5s")
+
+    @keyword
+    def click_category_tops_from_kids(self):
+        """Klikkaa alakategoriaa "Tops & Shirts" Kids -kategoriasta"""
+        self.click_category_kids()
+        self.click_element(self.HomePageLocators.KIDS_CATEGORY_TOPS)
+        self.wait_until_page_contains("Kids - Tops & Shirts Products", timeout="5s")
+
+    # ===================================================
+    #           --- ALATASON AVAINSANAT ---
+    # ===================================================
+
+    def get_page_title(self):
+        """Palauttaa sivun otsikon."""
+        return self._selib().get_title()
 
     @keyword
     def click_home_link_from_homepage(self):
@@ -134,68 +197,22 @@ class HomePage:
         """Tarkastaa onko etusivulla Featured Items -teksti näkyvissä"""
         self.element_should_be_visible(self.HomePageLocators.FEATURED_ITEMS_TITLE)
 
-    @keyword
     def check_is_home_page_loaded(self):
         """Tarkastaa onko etusivulla oleva kotisivun logo ja Home -linkki näkyvissä"""
         self.element_should_be_visible(self.HomePageLocators.LOGO)
         self.element_should_be_visible(self.HomePageLocators.HOME_LINK)
 
-    @keyword
     def click_category_women(self):
         """Klikkaa etusivulla olevaa Women -kategoriaa"""
         self.click_element(self.HomePageLocators.WOMEN_CATEGORY)
         self.wait_until_element_is_visible(self.HomePageLocators.WOMEN_CATEGORY_DRESS, timeout="5s")
 
-    @keyword
-    def click_category_dress_from_women(self):
-        """Klikkaa alakategoriaa "Dress" Women -kategoriasta"""
-        self.click_element(self.HomePageLocators.WOMEN_CATEGORY_DRESS)
-        self.wait_until_page_contains("Women - Dress Products", timeout="5s")
-
-    @keyword
-    def click_category_tops_from_women(self):
-        """Klikkaa alakategoriaa "Tops" Women -kategoriasta"""
-        self.click_element(self.HomePageLocators.WOMEN_CATEGORY_TOPS)
-        self.wait_until_page_contains("Women - Tops Products", timeout="5s")
-
-    @keyword
-    def click_category_saree_from_women(self):
-        """Klikkaa alakategoriaa "Saree" Women -kategoriasta"""
-        self.click_element(self.HomePageLocators.WOMEN_CATEGORY_SAREES)
-        self.wait_until_page_contains("Women - Saree Products", timeout="5s")   
-
-    @keyword
     def click_category_men(self):
         """Klikkaa etusivulla olevaa Men -kategoriaa"""
         self.click_element(self.HomePageLocators.MEN_CATEGORY)
         self.wait_until_element_is_visible(self.HomePageLocators.MEN_CATEGORY_TSHIRTS, timeout="5s")
-
-    @keyword
-    def click_category_tshirts_from_men(self):
-        """Klikkaa alakategoriaa "Tshirts" men -kategoriasta"""
-        self.click_element(self.HomePageLocators.MEN_CATEGORY_TSHIRTS)
-        self.wait_until_page_contains("Men - Tshirts Products", timeout="5s")
-
-    @keyword
-    def click_category_jeans_from_men(self):
-        """Klikkaa alakategoriaa "Jeans" men -kategoriasta"""
-        self.click_element(self.HomePageLocators.MEN_CATEGORY_JEANS)
-        self.wait_until_page_contains("Men - Jeans Products", timeout="5s")
     
-    @keyword
     def click_category_kids(self):
         """Klikkaa etusivulla olevaa Kids -kategoriaa"""
         self.click_element(self.HomePageLocators.KIDS_CATEGORY)
         self.wait_until_element_is_visible(self.HomePageLocators.KIDS_CATEGORY_DRESSES, timeout="5s")
-
-    @keyword
-    def click_category_dress_from_kids(self):
-        """Klikkaa alakategoriaa "Dress" Kids -kategoriasta"""
-        self.click_element(self.HomePageLocators.KIDS_CATEGORY_DRESSES)
-        self.wait_until_page_contains("Kids - Dress Products", timeout="5s")
-
-    @keyword
-    def click_category_tops_from_kids(self):
-        """Klikkaa alakategoriaa "Tops & Shirts" Kids -kategoriasta"""
-        self.click_element(self.HomePageLocators.KIDS_CATEGORY_TOPS)
-        self.wait_until_page_contains("Kids - Tops & Shirts Products", timeout="5s")
