@@ -9,7 +9,7 @@ class ProductsPage:
     class ProductsPageLocators:
         SEARCH_BAR = "//input[@id='search_product']"
         SEARCH_BUTTON = "//button[@id='submit_search']"
-        ALL_PRODUCTS_HEADER ="//h2[@class='title text-center']"
+        ALL_PRODUCTS_HEADER = "//h2[@class='title text-center']"
         VIEW_PRODUCT="//div[@class='col-sm-9 padding-right']//div[2]//div[1]//div[2]//ul[1]//li[1]//a[1]"
         WRITE_YOUR_REVIEW="//a[normalize-space()='Write Your Review']"
         ADD_TO_CART_1="(//a[@class='btn btn-default add-to-cart'][normalize-space()='Add to cart'])"
@@ -55,7 +55,8 @@ class ProductsPage:
     @keyword
     def select_product(self):
         """
-        Valitsee valitun tuotteen ja painaa tuoteikkunan add to cart-nappia. Tämän jälkeen siirtyy yläotsikon kautta cart-sivulle
+        Valitsee valitun tuotteen ja painaa tuoteikkunan add to cart-nappia. 
+        Tämän jälkeen siirtyy yläotsikon kautta cart-sivulle
         """
         loc = self.ProductsPageLocators.ADD_TO_CART_1
         self.selib.wait_until_element_is_visible(loc, timeout='5s')
