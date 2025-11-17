@@ -50,65 +50,72 @@ class ProductsPage:
     #           --- YLÄTASON AVAINSANAT ---
     # ===================================================
 
-    @keyword
-    def select_product(self):
+    def _safe_click(self, loc):
         """
-        Valitsee valitun tuotteen ja painaa tuoteikkunan add to cart-nappia. 
-        Tämän jälkeen siirtyy yläotsikon kautta cart-sivulle
+        Yrittää klikata elementtiä usealla metodilla:
+        1) normaali click_element
+        2) piilottaa mainos-iframe:t ja yrittää uudelleen
+        3) DOM-tason JS-click fallback
+        Palauttaa True jos klikkaus onnistui, muuten False.
         """
-        loc = self.ProductsPageLocators.ADD_TO_CART_1
-        self.selib.wait_until_element_is_visible(loc, timeout='5s')
-        self.selib.scroll_element_into_view(loc)
-
         clicked = False
 
-        # yritä normaali klikkaus
+        # 1) normaali klikkausyritys
         try:
             self.selib.click_element(loc)
-            clicked = True
+            return True
         except ElementClickInterceptedException:
             clicked = False
         except Exception:
             clicked = False
 
-        # jos ei klikattu, piilota iframet ja yritä uudelleen
-        if not clicked:
-            js_hide_ads = """
-                document.querySelectorAll("iframe[id^='aswift'], iframe[title='Advertisement']")
-                        .forEach(el => el.style.display = 'none');
-            """
-            try:
-                self.selib.execute_javascript(js_hide_ads)
-            except Exception:
-                # jos JS:n suoritus epäonnistuu, jatketaan silti fallbackeihin
-                pass
-            # pieni tauko että DOM ehtii päivittyä
+        # 2) piilota yleisimmät mainos-iframet ja yritä uudelleen
+        js_hide_ads = """
+            document.querySelectorAll("iframe[id^='aswift'], iframe[title='Advertisement']")
+                    .forEach(el => el.style.display = 'none');
+        """
+        try:
+            self.selib.execute_javascript(js_hide_ads)
+        except Exception:
+            pass
+        try:
+            # pieni tauko jotta DOM ehtii päivittyä
             try:
                 self.selib.sleep(0.3)
             except Exception:
                 pass
-            try:
-                self.selib.click_element(loc)
-                clicked = True
-            except Exception:
-                clicked = False
+            self.selib.click_element(loc)
+            return True
+        except Exception:
+            clicked = False
 
-        # jos edelleen ei klikattu, käytä suoraa JS-klikkausta
-        if not clicked:
+        # 3) viimeinen fallback: suora DOM click
+        try:
+            we = self.selib.find_element(loc)
             try:
-                we = self.selib.find_element(loc)
-                # scroll-to-center + DOM click
-                try:
-                    self.selib.driver.execute_script("arguments[0].scrollIntoView({block:'center'});", we)
-                except Exception:
-                    pass
-                try:
-                    self.selib.driver.execute_script("arguments[0].click();", we)
-                    clicked = True
-                except Exception:
-                    clicked = False
+                self.selib.driver.execute_script("arguments[0].scrollIntoView({block:'center'});", we)
             except Exception:
-                clicked = False
+                pass
+            try:
+                self.selib.driver.execute_script("arguments[0].click();", we)
+                return True
+            except Exception:
+                return False
+        except Exception:
+            return False
+
+
+    @keyword
+    def select_product(self):
+        """
+        Valitsee valitun tuotteen ja painaa tuoteikkunan add to cart-nappia. Tämän jälkeen siirtyy yläotsikon kautta cart-sivulle
+        """
+        loc = self.ProductsPageLocators.ADD_TO_CART_1
+        self.selib.wait_until_element_is_visible(loc, timeout='5s')
+        self.selib.scroll_element_into_view(loc)
+
+        # käytetään uudelleen käytettävää helper-metodia turvalliseen klikkaukseen
+        self._safe_click(loc)
 
         # odotetaan lisäys-ilmoitusta ja jatketaan sitten ostoskoriin riippumatta siitä, mitä click-metodia käytti
         self.wait_until_element_is_visible(self.ProductsPageLocators.ADDED, timeout='5s')
