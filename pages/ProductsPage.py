@@ -6,6 +6,9 @@ from selenium.common.exceptions import ElementClickInterceptedException
 
 class ProductsPage:
 
+    # ===================================================
+    #               --- LOKAATTORIT ---
+    # ===================================================
     class ProductsPageLocators:
         SEARCH_BAR = "//input[@id='search_product']"
         SEARCH_BUTTON = "//button[@id='submit_search']"
@@ -16,9 +19,15 @@ class ProductsPage:
         ADD_TO_CART_2="//button[@type='button']"
         ADDED="//h4[@class='modal-title w-100']"
         VIEW_CART="//u[normalize-space()='View Cart']"
-        CONTINUE_SHOPPING="//button[@class='btn btn-success close-modal btn-block']"
+        CONTINUE_SHOPPING = "css:button[data-dismiss='modal']"
         CART_LINK = "//a[normalize-space()='Cart']"
         PROCEED_TO_CHECKOUT="//a[@class='btn btn-default check_out']"
+        ALL_ADD_TO_CART_LINKS = "css:div.productinfo a.add-to-cart"
+        
+
+    # ===================================================
+    #                   --- SETUP ---
+    # ===================================================
         
     def __init__(self):
         try:
@@ -37,20 +46,9 @@ class ProductsPage:
     def __getattr__(self, name):
         return getattr(self._selib(), name)
     
-    @keyword
-    def input_search_text(self, text):
-        """Syöttää tekstin tuotteen hakukenttään"""
-        self.selib.input_text(self.ProductsPageLocators.SEARCH_BAR, text)
-
-    @keyword
-    def click_search_button(self):
-        """Klikkaa tuotteen hakupainiketta"""
-        self.selib.click_element(self.ProductsPageLocators.SEARCH_BUTTON)
-
-    @keyword
-    def verify_search_results(self, expected_text):
-        """Varmistaa, että hakutulokset sisältävät odotetun tuotteen"""
-        self.selib.page_should_contain(expected_text)
+    # ===================================================
+    #           --- YLÄTASON AVAINSANAT ---
+    # ===================================================
 
     @keyword
     def select_product(self):
@@ -119,5 +117,76 @@ class ProductsPage:
         self.click_element(self.ProductsPageLocators.CART_LINK)
         self.wait_until_element_is_visible(self.ProductsPageLocators.PROCEED_TO_CHECKOUT, timeout='5s')
 
+    @keyword
+    def add_products_to_cart_by_quantity(self, quantity: int):
+        """
+        Lisää argumenttina annetun määrän tuotteita ostoskoriin tuotesivulta.
+        """
 
-    
+        # Otetaan 'Add to cart' -lokaattori talteen merkkijonona
+        add_to_cart_selector = self.ProductsPageLocators.ALL_ADD_TO_CART_LINKS
+        if add_to_cart_selector.startswith("css:"):
+            add_to_cart_selector = add_to_cart_selector[4:].strip()
+
+        # Varmistetaan, että tuotteita on tarpeeksi
+        count = self.get_element_count(self.ProductsPageLocators.ALL_ADD_TO_CART_LINKS)
+        if count < quantity:
+            raise AssertionError(
+                f"Haluttiin lisätä {quantity} tuotetta, mutta sivulla "
+                f"oli vain {count} 'Add to cart' -nappia.")
+
+        # Lisää annetun määrän tuotteita ostoskoriin
+        for i in range(quantity):
+            js_code_add = f"document.querySelectorAll(\"{add_to_cart_selector}\")[{i}].click();"
+            
+            self.execute_javascript(js_code_add)
+            
+            self.wait_for_product_added_modal_and_continue()
+            
+            # Odotetaan, että pop-up sulkeutuu ennen seuraavaa lisäystä
+            self.wait_until_element_is_not_visible(
+                self.ProductsPageLocators.VIEW_CART, timeout="5s")
+
+
+    # ===================================================
+    #           --- ALATASON AVAINSANAT ---
+    # ===================================================
+
+    @keyword
+    def input_search_text(self, text):
+        """Syöttää argumenttina annettavan tekstin tuotteen hakukenttään"""
+        self.selib.input_text(self.ProductsPageLocators.SEARCH_BAR, text)
+
+    @keyword
+    def open_shopping_cart(self):
+        """Avaa ostoskorin klikkaamalla yläotsikon cart-linkkiä"""
+        self.selib.click_element(self.ProductsPageLocators.CART_LINK)
+        self.selib.wait_until_element_is_visible(
+            self.ProductsPageLocators.PROCEED_TO_CHECKOUT, timeout="5s")
+
+    @keyword
+    def click_search_button(self):
+        """Klikkaa tuotteen hakupainiketta"""
+        self.selib.click_element(self.ProductsPageLocators.SEARCH_BUTTON)
+
+    @keyword
+    def verify_search_results(self, expected_text):
+        """Varmistaa, että hakutulokset sisältävät odotetun tuotteen"""
+        self.selib.page_should_contain(expected_text)
+
+            
+    def wait_for_product_added_modal_and_continue(self):
+        """Odottaa, että 'Product Added!' -pop up ilmestyy 
+            ja klikkaa sitten 'Continue Shopping'."""
+        # Otetaan 'Continue' -lokaattori talteen merkkijonona
+        continue_selector = self.ProductsPageLocators.CONTINUE_SHOPPING
+        if continue_selector.startswith("css:"):
+            continue_selector = continue_selector[4:].strip()
+        
+        self.wait_until_element_is_visible(
+            self.ProductsPageLocators.VIEW_CART, timeout="5s")
+        
+        js_code_continue = f"document.querySelector(\"{continue_selector}\").click();"
+
+        self.execute_javascript(js_code_continue)
+        
