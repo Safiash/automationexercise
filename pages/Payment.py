@@ -6,15 +6,15 @@ from selenium.common.exceptions import ElementClickInterceptedException
 
 class Payment:
     class Paymentlocators:
-        PAYMENT="//h2[@class='heading']"
+        PAYMENT_HEADER="//h2[@class='heading']"
         NAME_ON_CARD_SLOT="//input[@name='name_on_card']"
         CARD_NUMBER_SLOT="//input[@name='card_number']"
-        CVC="//input[@placeholder='ex. 311']"
+        CVC_NUMBER_SLOT="//input[@placeholder='ex. 311']"
         EXPRIRATION_MONTH="//input[@placeholder='MM']"
         EXPIRATION_YEAR="//input[@placeholder='YYYY']"
         PAY_AND_CONFIRM_ORDER="//button[@id='submit']"
-        ORDER_PLACED="//b[normalize-space()='Order Placed!']"
-        CONTINUE="//a[@class='btn btn-primary']"
+        ORDER_PLACED_NOTIFICATION="//b[normalize-space()='Order Placed!']"
+        CONTINUE_BUTTON="//a[@class='btn btn-primary']"
         MAIN_LOGO="//img[@alt='Website for automation practice']"
     
     def __init__(self):
@@ -55,48 +55,74 @@ class Payment:
         random_year = random.choice(years)
         return random_year
     
-    @keyword
-    def pay_order(self, USERNAME):
+    def _safe_click(self, loc):
         """
-        Täyttää maksutiedot, ottaa nimen usernamesta, arpoo 20 random lukua kortin numeroksi ja 3 random lukua cvc luvuksi ja arpoo
-        sitten random kuukauden ja vuoden. lopuksi vahvistaa tilauksen. 
+        Yrittää klikata elementtiä kolmella tavalla:
+        1) Normaali Selenium-klikkaus
+        2) Piilota mainos-iframet ja yritä uudelleen
+        3) Suora JavaScript click
+        Palauttaa True/False onnistumisen mukaan.
         """
-        card_number = self.get_randomnumbers(20)
-        self.selib.input_text(self.Paymentlocators.NAME_ON_CARD_SLOT, USERNAME)
-        self.input_text(self.Paymentlocators.CARD_NUMBER_SLOT, card_number)
-        cvc_number = self.get_randomnumbers(3)
-        self.selib.input_text(self.Paymentlocators.CVC, cvc_number)
-        month = self.get_randommonth()
-        self.selib.input_text(self.Paymentlocators.EXPRIRATION_MONTH, month)
-        year = self.get_randomyear()
-        self.selib.input_text(self.Paymentlocators.EXPIRATION_YEAR, year)
+        # 1 — Normaali klikkaus
+        try:
+            self.selib.click_element(loc)
+            return True
+        except ElementClickInterceptedException:
+            pass
+        except Exception:
+            pass
 
-        # ---- KIERRÄ MAINOS (iframe-piilotus) ----
+        # 2 — Piilota mainos-iframet
         js_hide_ads = """
             document.querySelectorAll("iframe[id^='aswift'], iframe[title='Advertisement']")
                     .forEach(el => el.style.display = 'none');
         """
         try:
             self.selib.execute_javascript(js_hide_ads)
-            self.selib.sleep(0.3)  # pieni viive että DOM päivittyy
+            self.selib.sleep(0.3)
         except Exception:
             pass
-        # -----------------------------------------
 
+        # Yritä uudelleen
         try:
-            self.click_element(self.Paymentlocators.PAY_AND_CONFIRM_ORDER)
-        except ElementClickInterceptedException:
-            # Jos edelleen jää mainoksen alle, käytetään suoraa JS-klikkausta
-            try:
-                we = self.selib.find_element(self.Paymentlocators.PAY_AND_CONFIRM_ORDER)
-                self.selib.driver.execute_script("arguments[0].scrollIntoView({block:'center'});", we)
-                self.selib.driver.execute_script("arguments[0].click();", we)
-            except Exception:
-                raise AssertionError("PAY_AND_CONFIRM_ORDER element could not be clicked even after hiding ads.")
+            self.selib.click_element(loc)
+            return True
+        except Exception:
+            pass
 
-        self.wait_until_element_is_visible(self.Paymentlocators.ORDER_PLACED, timeout='5s')
-        self.click_element(self.Paymentlocators.CONTINUE)
+        # 3 — JS fallback - klikkaus
+        try:
+            we = self.selib.find_element(loc)
+            self.selib.driver.execute_script("arguments[0].scrollIntoView({block:'center'});", we)
+            self.selib.driver.execute_script("arguments[0].click();", we)
+            return True
+        except Exception:
+            return False
+
+    
+    @keyword
+    def pay_order(self, USERNAME):
+        """
+        Täyttää maksutiedot, arpoo kortin numeron, cvc:n sekä kuukausi/vuosi
+        ja suorittaa turvallisen klikkauksen (mainoksen ohi).
+        """
+        card_number = self.get_randomnumbers(20)
+        cvc_number = self.get_randomnumbers(3)
+        month = self.get_randommonth()
+        year = self.get_randomyear()
+
+        self.selib.input_text(self.Paymentlocators.NAME_ON_CARD_SLOT, USERNAME)
+        self.selib.input_text(self.Paymentlocators.CARD_NUMBER_SLOT, card_number)
+        self.selib.input_text(self.Paymentlocators.CVC_NUMBER_SLOT, cvc_number)
+        self.selib.input_text(self.Paymentlocators.EXPRIRATION_MONTH, month)
+        self.selib.input_text(self.Paymentlocators.EXPIRATION_YEAR, year)
+
+        self._safe_click(self.Paymentlocators.PAY_AND_CONFIRM_ORDER)
+
+        self.wait_until_element_is_visible(self.Paymentlocators.ORDER_PLACED_NOTIFICATION, timeout='5s')
+        self.click_element(self.Paymentlocators.CONTINUE_BUTTON)
         self.wait_until_element_is_visible(self.Paymentlocators.MAIN_LOGO, timeout='5s')
+
 
 
 
