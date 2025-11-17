@@ -1,5 +1,7 @@
 from robot.api.deco import keyword
 from robot.libraries.BuiltIn import BuiltIn, RobotNotRunningError
+import random
+import string
 
 
 class HomePage:
@@ -32,6 +34,9 @@ class HomePage:
         KIDS_CATEGORY = "//a[normalize-space()='Kids']"
         KIDS_CATEGORY_DRESSES = "//div[@id='Kids']//a[contains(text(),'Dress')]"
         KIDS_CATEGORY_TOPS = "//a[normalize-space()='Tops & Shirts']"
+        # Muut etusivun lokaattorit
+        SUBMIT_EMAIL = "//input[@id='susbscribe_email']"
+        SUBSCRIBE_NEWSLETTER = "//*[@id='subscribe']"
     
     # ===================================================
     #                   --- SETUP ---
@@ -136,6 +141,13 @@ class HomePage:
         self.click_element(self.HomePageLocators.KIDS_CATEGORY_TOPS)
         self.wait_until_page_contains("Kids - Tops & Shirts Products", timeout="5s")
 
+    def gen_email(pituus=8):
+        merkit = string.ascii_lowercase + string.digits
+        username = "".join(random.choice(merkit) for _ in range(pituus))
+        domain = "gmail.com"
+        return f"{username}@{domain}"
+
+
     # ===================================================
     #           --- ALATASON AVAINSANAT ---
     # ===================================================
@@ -216,3 +228,12 @@ class HomePage:
         """Klikkaa etusivulla olevaa Kids -kategoriaa"""
         self.click_element(self.HomePageLocators.KIDS_CATEGORY)
         self.wait_until_element_is_visible(self.HomePageLocators.KIDS_CATEGORY_DRESSES, timeout="5s")
+
+    def submit_email(self, email):
+        """Syöttää käyttäjän sähköpostiosoitteen lomakkeeseen"""
+        self.selib.input_text(self.HomePageLocators.SUBMIT_EMAIL, email)
+
+    def subscribe_newsletter(self):
+        """Tilaa uutiskirjeen, kun sähköpostiosoite on jo laitettu"""
+        self.click_element(self.HomePageLocators.SUBSCRIBE_NEWSLETTER)
+        self.wait_until_element_is_visible(self.HomePageLocators.SUBSCRIBE_NEWSLETTER, timeout="5s")
