@@ -5,8 +5,8 @@ Library    ../pages/SignLogin.py
 Library    ../pages/HomePage.py
 Variables    ../resource/variables/env_var.py
 
-Test Setup       Run Keywords    Open Home Page
-...              AND    Set Selenium Implicit Wait    10s
+Test Setup       Open Home Page
+
 Test Teardown    Close Browser
 
 *** Variables ***
@@ -22,8 +22,11 @@ Test Teardown    Close Browser
 ...           country=Australia  state=Queensland  city=Cairns  zip=00100
 ...           newsletter=${False}    special_offers=${True}
 
-
 *** Test Cases ***
+Delete User
+    [Documentation]    Sign up new user and delete it
+    Delete Account    
+
 Create New User With Valid Default Values
     [Documentation]    Sign up with default values
     Sign Up New User

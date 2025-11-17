@@ -38,8 +38,12 @@ class SignLogin:
         STATE = "//input[@id='state']"
         CITY = "//input[@id='city']"
         ZIPCODE = "//input[@id='zipcode']"
-        MOBILE_NUMBER = "//input[@id='zipcode']"
+        MOBILE_NUMBER = "//input[@id='mobile_number']"
         CREATE_ACCOUNT_BUTTON = "//button[normalize-space()='Create Account']"
+        HEADER_ACCOUNT_CREATED = "//b[normalize-space()='Account Created!']"
+        CONTINUE_ACCOUNT_CREATED_BUTTON ="//a[normalize-space()='Continue']"
+        DELETE_ACCOUNT_LINK = "//a[normalize-space()='Delete Account']"
+        ACCOUNT_DELETED_HEADER = "//b[normalize-space()='Account Deleted!']"
 
 
 
@@ -88,6 +92,17 @@ class SignLogin:
         self.press_login_button()
         self.verify_login()
 
+    @keyword
+    def delete_account(self):
+        """
+        Suorittaa uuden rekisteröinnin,
+        ja poistaa tilin.
+        """
+        self.sign_up_new_user()
+        self.selib.wait_until_element_is_visible(self.SignLoginLocators.HEADER_ACCOUNT_CREATED, timeout='5s')
+        self.selib.click_element(self.SignLoginLocators.CONTINUE_ACCOUNT_CREATED_BUTTON)
+        self.selib.click_element(self.SignLoginLocators.DELETE_ACCOUNT_LINK)
+        self.selib.wait_until_element_is_visible(self.SignLoginLocators.ACCOUNT_DELETED_HEADER, timeout='5s')
     # ===================================================
     #           --- ALATASON AVAINSANAT ---
     # ===================================================
@@ -182,7 +197,7 @@ class SignLogin:
             self.selib.unselect_checkbox(self.SignLoginLocators.SPECIAL_OFFERS_CHECKBOX)
 
     @keyword
-    def fill_address_info(self, first_name, last_name, company, address1, address2, country, state, city, zipcode, mobile):
+    def fill_address_info(self, first_name, last_name, company, address1, address2, country, state, city, zip, mobile):
         self.selib.input_text(self.SignLoginLocators.FIRST_NAME, first_name)
         self.selib.input_text(self.SignLoginLocators.LAST_NAME, last_name)
         if company:
@@ -193,7 +208,7 @@ class SignLogin:
         self.selib.select_from_list_by_value(self.SignLoginLocators.COUNTRY_SELECTION, country)
         self.selib.input_text(self.SignLoginLocators.STATE, state)
         self.selib.input_text(self.SignLoginLocators.CITY, city)
-        self.selib.input_text(self.SignLoginLocators.ZIPCODE, zipcode)
+        self.selib.input_text(self.SignLoginLocators.ZIPCODE, zip)
         self.selib.input_text(self.SignLoginLocators.MOBILE_NUMBER, mobile)
 
     @keyword
@@ -233,7 +248,7 @@ class SignLogin:
     def fill_account_information(
         self,
         title, password, day, month, year,
-        first_name, last_name, company, address1, address2, country, state, city, zipcode, mobile,
+        first_name, last_name, company, address1, address2, country, state, city, zip, mobile,
         newsletter: bool=True, special_offers: bool=False
     ):
         """Testissä käytettävä korkeatason avainsana, joka käyttää aikaisempia avainsanoja"""
@@ -246,7 +261,7 @@ class SignLogin:
         self.set_birthdate(day, month, year)
         self.set_newsletter(newsletter)
         self.set_special_offers(special_offers)
-        self.fill_address_info(first_name, last_name, company, address1, address2, country, state, city, zipcode, mobile)
+        self.fill_address_info(first_name, last_name, company, address1, address2, country, state, city, zip, mobile)
 
     @keyword
     def sign_up_new_user(self, **person):
@@ -255,8 +270,8 @@ class SignLogin:
         # oletusarvot
         defaults = {
             "title": "mr", "day": "10", "month": "June", "year": "1993",
-            "first": "Test", "last": "User", "company": "", "addr1": "", "addr2": "",
-            "country": "India", "state": "", "city": "", "zip": "",
+            "first": "Test", "last": "User", "company": "", "addr1": "jokukuja 1", "addr2": "",
+            "country": "India", "state": "ohio", "city": "Goa", "zip": "01010", "mobile": "0401234567",
             "newsletter": False, "special_offers": False
         }
         defaults.update(person or {})
@@ -281,11 +296,24 @@ class SignLogin:
         self.press_sign_up_button_safe()
 
         self.fill_account_information(
-            p["title"], password, p["day"], p["month"], p["year"],
-            p["first"], p["last"], p["company"], p["addr1"], p["addr2"],
-            p["country"], p["state"], p["city"], p["zip"], mobile,
-            newsletter=p["newsletter"], special_offers=p["special_offers"]
-        )
+        title=p["title"],
+        password=password,
+        day=p["day"],
+        month=p["month"],
+        year=p["year"],
+        first_name=p["first"],
+        last_name=p["last"],
+        company=p["company"],
+        address1=p["addr1"],
+        address2=p["addr2"],
+        country=p["country"],
+        state=p["state"],
+        city=p["city"],
+        zip=p["zip"],   # <- explicitly zip
+        mobile=str(mobile), # <- explicitly mobile (as string)
+        newsletter=p["newsletter"],
+        special_offers=p["special_offers"]
+    )
         self.submit_create_account()
 
         # palauta datat jos haluat käsitellä niitä Robot-tasolla
