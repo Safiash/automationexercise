@@ -15,9 +15,9 @@ class ProductsPage:
         ALL_PRODUCTS_HEADER = "//h2[@class='title text-center']"
         VIEW_PRODUCT="//div[@class='col-sm-9 padding-right']//div[2]//div[1]//div[2]//ul[1]//li[1]//a[1]"
         WRITE_YOUR_REVIEW="//a[normalize-space()='Write Your Review']"
-        ADD_TO_CART_1="(//a[@class='btn btn-default add-to-cart'][normalize-space()='Add to cart'])"
-        ADD_TO_CART_2="//button[@type='button']"
-        ADDED="//h4[@class='modal-title w-100']"
+        ADD_TO_CART_FROM_PRODUCT_WINDOW="(//a[@class='btn btn-default add-to-cart'][normalize-space()='Add to cart'])"
+        ADD_TO_CART_FROM_VIEW_PRODUCT="//button[@type='button']"
+        ADDED_NOTIFICATION="//h4[@class='modal-title w-100']"
         VIEW_CART="//u[normalize-space()='View Cart']"
         CONTINUE_SHOPPING = "css:button[data-dismiss='modal']"
         CART_LINK = "//a[normalize-space()='Cart']"
@@ -110,7 +110,7 @@ class ProductsPage:
         """
         Valitsee valitun tuotteen ja painaa tuoteikkunan add to cart-nappia. Tämän jälkeen siirtyy yläotsikon kautta cart-sivulle
         """
-        loc = self.ProductsPageLocators.ADD_TO_CART_1
+        loc = self.ProductsPageLocators.ADD_TO_CART_FROM_PRODUCT_WINDOW
         self.selib.wait_until_element_is_visible(loc, timeout='5s')
         self.selib.scroll_element_into_view(loc)
 
@@ -118,7 +118,7 @@ class ProductsPage:
         self._safe_click(loc)
 
         # odotetaan lisäys-ilmoitusta ja jatketaan sitten ostoskoriin riippumatta siitä, mitä click-metodia käytti
-        self.wait_until_element_is_visible(self.ProductsPageLocators.ADDED, timeout='5s')
+        self.wait_until_element_is_visible(self.ProductsPageLocators.ADDED_NOTIFICATION, timeout='5s')
         self.click_element(self.ProductsPageLocators.CONTINUE_SHOPPING)
         self.wait_until_element_is_visible(self.ProductsPageLocators.CART_LINK, timeout='5s')
         self.click_element(self.ProductsPageLocators.CART_LINK)
