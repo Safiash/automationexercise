@@ -13,6 +13,8 @@ Test Teardown    Close Browser
 *** Test Cases ***
 
 TC008 Subscribe Newsletter When Signed In
-    Login As Valid User    ${EMAIL}    ${PASSWORD}
-
-    # eli luon vielä avainsanan, jolla se tilaa sen. luon sen joko jo olemassa olevaan kirjastoon, tai luon oman. jos luon oman, muista linkittää se tuohon settingseihin.
+    Click Sign Up Login Link From Homepage
+    Fill Login Form    ${EMAIL}    ${PASSWORD}
+    Press Login Button
+    Submit Email    ${email}
+    Subscribe Newsletter
