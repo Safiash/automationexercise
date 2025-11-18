@@ -235,7 +235,7 @@ class HomePage:
         self.click_element(self.HomePageLocators.KIDS_CATEGORY)
         self.wait_until_element_is_visible(self.HomePageLocators.KIDS_CATEGORY_DRESSES, timeout="5s")
 
-    def submit_email(self, email):
+    def submit_email_newsletter(self, email):
         """Syöttää käyttäjän sähköpostiosoitteen lomakkeeseen"""
         self.selib.input_text(self.HomePageLocators.SUBMIT_EMAIL, email)
 
@@ -248,7 +248,7 @@ class HomePage:
         """Täyttää nimen contact us -lomakkeeseen"""
         self.selib.input_text(self.HomePageLocators.CONTACT_US_NAME, name)
 
-    def submit_email(self, email):
+    def submit_email_contactus(self, email):
         """Täyttää sähköpostiosoitteen contact us -lomakkeeseen"""
         self.selib.input_text(self.HomePageLocators.CONTACT_US_EMAIL, email)
 

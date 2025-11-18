@@ -20,7 +20,7 @@ TC014 Contact Us When Signed In
     Login As Valid User      ${EMAIL}    ${PASSWORD}
     Click Contact Us Link From Homepage
     Submit Name    ${name}
-    Submit Email    ${EMAIL}
+    Submit Email Contactus    ${EMAIL}
     Submit Subject    ${subject}
     Submit Message    ${message}
     Submit Contact Us

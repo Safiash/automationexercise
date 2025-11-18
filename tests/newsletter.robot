@@ -17,5 +17,5 @@ TC008 Subscribe Newsletter When Signed In
     Click Sign Up Login Link From Homepage
     Fill Login Form    ${EMAIL}    ${PASSWORD}
     Press Login Button
-    Submit Email    ${email}
+    Submit Email Newsletter   ${email}
     Subscribe Newsletter
