@@ -6,22 +6,18 @@ Library    ../pages/SignLogin.py
 Library    ../pages/ProductsPage.py
 Library    ../pages/Cart.py
 Library    ../pages/Checkout.py
-Library    ../pages/Payment.py
 Variables    ../resource/variables/env_var.py
 
 
-Test Setup    Run Keywords    Open Home Page    headless=True
+Test Setup    Run Keywords    Open Home Page
 ...              AND    Set Selenium Implicit Wait    10s
 Test Teardown    Close Browser
 
-*** Test Cases ***
 
-TC007 Buy Product When Signed In
+*** Test Cases ***
+TC009 Product Removal From The Cart
     Login As Valid User    ${EMAIL}    ${PASSWORD}
     Click Products Link From Homepage
     Select Product
-    Proceed To Checkout
-    Place Order
-    Pay Order    ${USERNAME}
-
-
+    Click Cart Link From Homepage
+    Empty Shopping Cart
