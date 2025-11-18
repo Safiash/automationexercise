@@ -12,10 +12,6 @@ Test Teardown    Close Browser
 
 *** Test Cases ***
 
-TC008 Subscribe Newsletter When Signed In
-    [Documentation]    Subscribes the newsletter with a valid email address
-    Click Sign Up Login Link From Homepage
-    Fill Login Form    ${EMAIL}    ${PASSWORD}
-    Press Login Button
-    Submit Email    ${email}
-    Subscribe Newsletter
+TC014 Contact Us When Signed In
+    [Documentation]    Fills in the contact us form and sends it
+    Login As Valid User      ${EMAIL}    ${PASSWORD}
