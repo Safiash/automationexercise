@@ -6,19 +6,21 @@ Library    BuiltIn
 API 2: POST To All Products List
     [Documentation]    Lähetä POST /api/productsList ja varmista että JSON palauttaa 405
 
+    # Luodaan sessio API-palveluun
     Create Session    mysession    https://automationexercise.com
 
+    # Lähetetään POST-pyyntö productsList-endpointiin
     ${response}=    POST On Session    mysession    /api/productsList
 
-    # HTTP statuscode API her zaman 200 döndürüyor
+    # API palauttaa aina HTTP 200, joten statuskoodi tarkistetaan näin
     Should Be Equal As Integers    ${response.status_code}    200
 
-    # JSON'u doğru şekilde alıyoruz
+    # Haetaan vastauksen JSON (dictionary-muodossa)
     ${json}=    Set Variable    ${response.json()}
 
-    # JSON responseCode 405 olmalı
+    # Tarkistetaan että responseCode = 405 (metodia ei tueta)
     Should Be Equal As Integers    ${json["responseCode"]}    405
 
-    # Loglar
+    # Tulostetaan statuskoodi ja JSON konsoliin
     Log To Console    Status Code: ${response.status_code}
     Log To Console    Response JSON: ${json}

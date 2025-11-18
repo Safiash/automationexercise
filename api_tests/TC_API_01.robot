@@ -5,30 +5,34 @@ Library    BuiltIn
 
 *** Test Cases ***
 API 1: Get All Products List
-    [Documentation]    GET isteği ile tüm ürünleri çek ve JSON alanlarını doğrula
+    [Documentation]    Hae kaikki tuotteet GET-pyynnöllä ja varmista JSON-rakenteen oikeellisuus
 
-    # Session oluştur
+    # Luodaan sessio API-palveluun
     Create Session    mysession    https://automationexercise.com
 
-    # GET isteği
+    # Lähetetään GET-pyyntö tuotteiden listaan
     ${response}=    GET On Session    mysession    /api/productsList
 
-    # Status kodunu kontrol et
+    # Varmistetaan että HTTP-statuskoodi on 200
     Should Be Equal As Integers    ${response.status_code}    200
 
-    # JSON'u dictionary olarak al
+    # Muutetaan vastauksen body JSON-muotoon (dictionary)
     ${json_data}=    To JSON    ${response.text}
 
-    # JSON'u hem log.html hem de terminalde göster
-    Log    ${json_data}        # HTML log
-    Log To Console    ${json_data}   # Terminal log
+    # Tulostetaan JSON log.html-tiedostoon ja konsoliin
+    Log    ${json_data}              # HTML-logi
+    Log To Console    ${json_data}   # Konsoliloki
 
-    # 'products' key var mı kontrol et
+    # Tarkistetaan että JSON sisältää 'products'-avaimen
     Dictionary Should Contain Key    ${json_data}    products
 
-    # İlk ürünün id, name ve price alanları var mı kontrol et
+    # Haetaan products-lista JSON:sta
     ${products}=    Get From Dictionary    ${json_data}    products
+
+    # Otetaan listan ensimmäinen tuote
     ${first_product}=    Set Variable    ${products}[0]
+
+    # Varmistetaan että tuotteella on id, name ja price
     Dictionary Should Contain Key    ${first_product}    id
     Dictionary Should Contain Key    ${first_product}    name
     Dictionary Should Contain Key    ${first_product}    price
