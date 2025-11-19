@@ -23,5 +23,6 @@ TC007 Buy Product When Signed In
     Proceed To Checkout
     Place Order
     Pay Order    ${USERNAME}
+    Go To Main Page
 
 
