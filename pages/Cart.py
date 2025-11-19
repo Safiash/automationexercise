@@ -114,5 +114,3 @@ class Cart:
             return locator_str[4:].strip()
         return locator_str.strip()
     
-
-        
