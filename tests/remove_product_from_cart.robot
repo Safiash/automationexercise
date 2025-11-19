@@ -2,16 +2,23 @@
 
 Library    SeleniumLibrary
 Library    ../pages/HomePage.py
+Library    ../pages/SignLogin.py
+Library    ../pages/ProductsPage.py
+Library    ../pages/Cart.py
+Library    ../pages/Checkout.py
+Variables    ../resource/variables/env_var.py
+
+
 
 Test Setup       Run Keywords    Open Home Page    headless=True
 ...              AND    Set Selenium Implicit Wait    10s
 Test Teardown    Close Browser
 
+
 *** Test Cases ***
-TC015 Click All Main Links From Home Page
-    [Documentation]    Open the Automation Exercise home page and click all main links
+TC009 Product Removal From The Cart
+    Login As Valid User    ${EMAIL}    ${PASSWORD}
     Click Products Link From Homepage
+    Select Product
     Click Cart Link From Homepage
-    Click Signup Login Link From Homepage
-    Click Contact Us Link From Homepage
-    Click Home Link From Homepage
+    Empty Shopping Cart

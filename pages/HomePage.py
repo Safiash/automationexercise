@@ -37,6 +37,12 @@ class HomePage:
         # Muut etusivun lokaattorit
         SUBMIT_EMAIL = "//input[@id='susbscribe_email']"
         SUBSCRIBE_NEWSLETTER = "//*[@id='subscribe']"
+        CONTACT_US_NAME = "//input[@placeholder='Name']"
+        CONTACT_US_EMAIL = "//input[@placeholder='Email']"
+        CONTACT_US_SUBJECT = "//input[@placeholder='Subject']"
+        CONTACT_US_MESSAGE = "//textarea[@id='message']"
+        CONTACT_US_SUBMIT = "//input[@name='submit']"
+
     
     # ===================================================
     #                   --- SETUP ---
@@ -61,6 +67,49 @@ class HomePage:
 
     def __getattr__(self, name):
         return getattr(self._selib(), name)
+        
+    def _perform_open_browser(self, url, browser, headless_mode):
+        """
+        Sisäinen metodi selaimen avaamiseen.
+        Hoitaa ikkunan koon eri tavalla headless- ja näkyvässä tilassa.
+        """
+        robot_base_url = BuiltIn().get_variable_value("${BASE_URL}", default=self.base_url)
+        robot_browser = BuiltIn().get_variable_value("${DEFAULT_BROWSER}", default=self.default_browser)
+
+        url_to_open = url or robot_base_url
+        browser_to_use = browser or robot_browser
+        
+        options_list = []
+        
+        if 'chrome' in browser_to_use.lower():
+            # Yleiset asetukset
+            options_list.append("add_argument('--disable-search-engine-choice-screen')")
+            options_list.append("add_argument('--no-sandbox')")
+            options_list.append("add_argument('--disable-gpu')")
+            
+            if headless_mode:
+                # Headless-tilassa tarvitaan kiinteä koko ja headless-vipu
+                options_list.append("add_argument('--headless=new')")
+                options_list.append("add_argument('--window-size=1920,1080')")
+            else:
+                # Näkyvässä tilassa EI aseteta kiinteää kokoa tässä
+                pass
+        
+        elif 'firefox' in browser_to_use.lower():
+            if headless_mode:
+                options_list.append("add_argument('--headless')")
+                options_list.append("add_argument('--width=1920')")
+                options_list.append("add_argument('--height=1080')")
+
+        # Luodaan options-merkkijono
+        final_options = ";".join(options_list)
+
+        # 1. Avataan selain
+        self._selib().open_browser(url_to_open, browser=browser_to_use, options=final_options)
+
+        # 2. Jos ollaan NÄKYVÄSSÄ tilassa, maksimoidaan ikkuna nyt
+        if not headless_mode:
+            self._selib().maximize_browser_window()
     
     # ===================================================
     #           --- YLÄTASON AVAINSANAT ---
@@ -69,26 +118,30 @@ class HomePage:
     @keyword
     def open_url(self, url=None, browser=None):
         """
-        Avaa selaimen.
-        
-        Lukee ${BASE_URL} ja ${DEFAULT_BROWSER} muuttujat Robot Frameworkista,
-        jos niitä ei ole annettu argumentteina.
+        Avaa selaimen NÄKYVÄSSÄ tilassa.
         """
-        # Lue muuttujat Robotista TÄÄLLÄ (keywordin sisällä).
-        robot_base_url = BuiltIn().get_variable_value("${BASE_URL}", default=self.base_url)
-        robot_browser = BuiltIn().get_variable_value("${DEFAULT_BROWSER}", default=self.default_browser)
-
-        # Käytä joko argumenttina annettua arvoa (url) tai Robotin muuttujaa (robot_base_url)
-        url_to_open = url or robot_base_url
-        browser_to_use = browser or robot_browser
-        
-        self._selib().open_browser(url_to_open, browser=browser_to_use)
-        self._selib().maximize_browser_window()
+        self._perform_open_browser(url, browser, headless_mode=False)
 
     @keyword
-    def open_home_page(self):
-        """Avaa määritellyn kotisivun ja hyväksyy evästeet"""
-        self.open_url()
+    def open_url_headless(self, url=None, browser=None):
+        """
+        Avaa selaimen HEADLESS-tilassa (tausta-ajo).
+        """
+        self._perform_open_browser(url, browser, headless_mode=True)
+
+    @keyword
+    def open_home_page(self, headless=False):
+        """
+        Avaa määritellyn kotisivun ja hyväksyy evästeet.
+        
+        Argumentit:
+        - headless: Jos True, avataan headless-tilassa. Oletus False (näkyvä).
+        """
+        if headless:
+            self.open_url_headless()
+        else:
+            self.open_url()
+            
         self._selib().wait_until_element_is_visible(self.HomePageLocators.CONSENT_COOKIES_FRONTPAGE, timeout="5s")
         self._selib().click_element(self.HomePageLocators.CONSENT_COOKIES_FRONTPAGE)
 
@@ -195,7 +248,7 @@ class HomePage:
     @keyword
     def click_contact_us_link_from_homepage(self):
         """Klikkaa etusivulla olevaa Contact Us -linkkiä"""
-        self.click_element(self.HomePageLocators.CONTACKT_US_LINK)
+        self.click_element(self.HomePageLocators.CONTACT_US_LINK)
         self.wait_until_page_contains("Get In Touch", timeout="5s")
 
     @keyword
@@ -229,7 +282,7 @@ class HomePage:
         self.click_element(self.HomePageLocators.KIDS_CATEGORY)
         self.wait_until_element_is_visible(self.HomePageLocators.KIDS_CATEGORY_DRESSES, timeout="5s")
 
-    def submit_email(self, email):
+    def submit_email_newsletter(self, email):
         """Syöttää käyttäjän sähköpostiosoitteen lomakkeeseen"""
         self.selib.input_text(self.HomePageLocators.SUBMIT_EMAIL, email)
 
@@ -237,3 +290,24 @@ class HomePage:
         """Tilaa uutiskirjeen, kun sähköpostiosoite on jo laitettu"""
         self.click_element(self.HomePageLocators.SUBSCRIBE_NEWSLETTER)
         self.wait_until_element_is_visible(self.HomePageLocators.SUBSCRIBE_NEWSLETTER, timeout="5s")
+
+    def submit_name(self, name):
+        """Täyttää nimen contact us -lomakkeeseen"""
+        self.selib.input_text(self.HomePageLocators.CONTACT_US_NAME, name)
+
+    def submit_email_contactus(self, email):
+        """Täyttää sähköpostiosoitteen contact us -lomakkeeseen"""
+        self.selib.input_text(self.HomePageLocators.CONTACT_US_EMAIL, email)
+
+    def submit_subject(self, subject):
+        """Täyttää viestin otsikon contact us -lomakkeeseen"""
+        self.selib.input_text(self.HomePageLocators.CONTACT_US_SUBJECT, subject)
+
+    def submit_message(self, message):
+        """Täyttää tekstiosion contact us -lomakkeeseen"""
+        self.selib.input_text(self.HomePageLocators.CONTACT_US_MESSAGE, message)
+
+    def submit_contact_us(self):
+        """Lähettää contact us -lomakkeen"""
+        self.click_element(self.HomePageLocators.CONTACT_US_SUBMIT)
+        self.selib.handle_alert("ACCEPT")
