@@ -23,23 +23,23 @@ Test Teardown    Close Browser
 ...           newsletter=${False}    special_offers=${True}
 
 *** Test Cases ***
-Delete User
+TC005 Delete User
     [Documentation]    Sign up new user and delete it
     Delete Account    
 
-Create New User With Valid Default Values
+TC004 Create New User With Valid Default Values
     [Documentation]    Sign up with default values
     Sign Up New User
 
-Create New User With Valid Credentials
+TC004 Create New User With Valid Credentials
     [Documentation]    Sign up with given values from dictionary
     Sign Up New User    &{PERSON2}
 
-Create New User2 With Valid Credentials
+TC004 Create New User2 With Valid Credentials
     [Documentation]    Sign up with given values from dictionary
     Sign Up New User    &{PERSON1}
     
-Create User With Existing Email
+TC001 Create User With Existing Email
     [Documentation]    Nevative test to sign in with existing invalid credentials
     Click Signup Login Link From Homepage
     Attempt Signup With Existing Email   ${EMAIL}    ${USERNAME}
