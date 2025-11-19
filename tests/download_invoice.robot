@@ -16,13 +16,12 @@ Test Teardown    Close Browser
 
 *** Test Cases ***
 
-TC007 Buy Product When Signed In
+TC012 Download Invoice As A Registered User
     Login As Valid User    ${EMAIL}    ${PASSWORD}
     Click Products Link From Homepage
     Select Product
     Proceed To Checkout
     Place Order
     Pay Order    ${USERNAME}
-    Go To Main Page
-
-
+    Download Invoice
+    Verify Invoice Exists    30

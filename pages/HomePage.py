@@ -37,6 +37,12 @@ class HomePage:
         # Muut etusivun lokaattorit
         SUBMIT_EMAIL = "//input[@id='susbscribe_email']"
         SUBSCRIBE_NEWSLETTER = "//*[@id='subscribe']"
+        CONTACT_US_NAME = "//input[@placeholder='Name']"
+        CONTACT_US_EMAIL = "//input[@placeholder='Email']"
+        CONTACT_US_SUBJECT = "//input[@placeholder='Subject']"
+        CONTACT_US_MESSAGE = "//textarea[@id='message']"
+        CONTACT_US_SUBMIT = "//input[@name='submit']"
+
     
     # ===================================================
     #                   --- SETUP ---
@@ -276,7 +282,7 @@ class HomePage:
         self.click_element(self.HomePageLocators.KIDS_CATEGORY)
         self.wait_until_element_is_visible(self.HomePageLocators.KIDS_CATEGORY_DRESSES, timeout="5s")
 
-    def submit_email(self, email):
+    def submit_email_newsletter(self, email):
         """Syöttää käyttäjän sähköpostiosoitteen lomakkeeseen"""
         self.selib.input_text(self.HomePageLocators.SUBMIT_EMAIL, email)
 
@@ -284,3 +290,24 @@ class HomePage:
         """Tilaa uutiskirjeen, kun sähköpostiosoite on jo laitettu"""
         self.click_element(self.HomePageLocators.SUBSCRIBE_NEWSLETTER)
         self.wait_until_element_is_visible(self.HomePageLocators.SUBSCRIBE_NEWSLETTER, timeout="5s")
+
+    def submit_name(self, name):
+        """Täyttää nimen contact us -lomakkeeseen"""
+        self.selib.input_text(self.HomePageLocators.CONTACT_US_NAME, name)
+
+    def submit_email_contactus(self, email):
+        """Täyttää sähköpostiosoitteen contact us -lomakkeeseen"""
+        self.selib.input_text(self.HomePageLocators.CONTACT_US_EMAIL, email)
+
+    def submit_subject(self, subject):
+        """Täyttää viestin otsikon contact us -lomakkeeseen"""
+        self.selib.input_text(self.HomePageLocators.CONTACT_US_SUBJECT, subject)
+
+    def submit_message(self, message):
+        """Täyttää tekstiosion contact us -lomakkeeseen"""
+        self.selib.input_text(self.HomePageLocators.CONTACT_US_MESSAGE, message)
+
+    def submit_contact_us(self):
+        """Lähettää contact us -lomakkeen"""
+        self.click_element(self.HomePageLocators.CONTACT_US_SUBMIT)
+        self.selib.handle_alert("ACCEPT")

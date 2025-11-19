@@ -9,6 +9,7 @@ class Cart:
         PRODUCT_ROWS_IN_CART = "css:table#cart_info_table tbody tr"
         DELETE_ITEM_FROM_BASKET_BUTTON = "css:a.cart_quantity_delete"
         EMPTY_CART_MESSAGE = "css:span#empty_cart"
+        
 
     # ===================================================
     #                   --- SETUP ---
@@ -112,3 +113,4 @@ class Cart:
         if locator_str.startswith("css:"):
             return locator_str[4:].strip()
         return locator_str.strip()
+    
