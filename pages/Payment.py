@@ -1,4 +1,6 @@
 import random
+import os
+import time
 from robot.api.deco import keyword
 from robot.libraries.BuiltIn import BuiltIn, RobotNotRunningError
 from selenium.common.exceptions import ElementClickInterceptedException
@@ -14,6 +16,7 @@ class Payment:
         EXPIRATION_YEAR="//input[@placeholder='YYYY']"
         PAY_AND_CONFIRM_ORDER="//button[@id='submit']"
         ORDER_PLACED_NOTIFICATION="//b[normalize-space()='Order Placed!']"
+        DOWNLOAD_INVOICE_BUTTON="//a[@class='btn btn-default check_out']"
         CONTINUE_BUTTON="//a[@class='btn btn-primary']"
         MAIN_LOGO="//img[@alt='Website for automation practice']"
     
@@ -120,12 +123,35 @@ class Payment:
         self._safe_click(self.Paymentlocators.PAY_AND_CONFIRM_ORDER)
 
         self.wait_until_element_is_visible(self.Paymentlocators.ORDER_PLACED_NOTIFICATION, timeout='5s')
+
+    @keyword
+    def download_invoice(self):
+        self.wait_until_element_is_visible(self.Paymentlocators.ORDER_PLACED_NOTIFICATION, timeout='5s')
+        self.click_element(self.Paymentlocators.DOWNLOAD_INVOICE_BUTTON)
+        
+    @keyword
+    def verify_invoice_exists(self, timeout=30):
+        """
+        Odottaa, että Downloads-kansioon ilmestyy tiedosto, jonka nimessä esiintyy 'invoice'.
+        Palauttaa True jos löytyy, muuten epäonnistuu (AssertionError).
+        """
+        downloads = os.path.join(os.path.expanduser("~"), "Downloads")
+        if not os.path.exists(downloads):
+            raise AssertionError(f"Downloads-kansiota ei löydy: {downloads}")
+
+        end_time = time.time() + int(timeout)
+        while time.time() < end_time:
+            for file in os.listdir(downloads):
+                if "invoice" in file.lower():
+                    return True
+            time.sleep(1)
+        raise AssertionError(f"No invoice file found in {downloads} after {timeout} seconds.")
+
+    @keyword
+    def go_to_main_page(self):
+        self.wait_until_element_is_visible(self.Paymentlocators.ORDER_PLACED_NOTIFICATION, timeout='5s')
         self.click_element(self.Paymentlocators.CONTINUE_BUTTON)
         self.wait_until_element_is_visible(self.Paymentlocators.MAIN_LOGO, timeout='5s')
-
-
-
-
 
 
 
