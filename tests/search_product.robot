@@ -1,9 +1,9 @@
 *** Settings ***
 
 Library    SeleniumLibrary
-Library    ../pages/SignLogin.py
-Library    ../pages/HomePage.py
-Library    ../pages/ProductsPage.py
+Library     ../libs/pages/SignLogin.py
+Library    ../libs/pages/HomePage.py
+Library     ../libs/pages/ProductsPage.py
 
 Variables    ../resource/variables/env_var.py
 
