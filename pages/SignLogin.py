@@ -157,12 +157,12 @@ class SignLogin:
     
     @keyword
     def on_account_info_page(self):
-        """waiting that element is visible"""
+        """Odottaa elementin näkymistä"""
         self.selib.wait_until_element_is_visible(self.SignLoginLocators.HEADER, "5s")
 
     @keyword
     def select_title(self, title: str):
-        """Choose title of the person if MR or MRS. Capitalization ignored"""
+        """Valitsee tittelin, niin että ignooraa isot kirjaimet"""
         t = title.strip().lower()
         target = self.SignLoginLocators.TITLE_MR if t == "mr" else self.SignLoginLocators.TITLE_MRS
         value  = "Mr" if t == "mr" else "Mrs"
@@ -172,18 +172,19 @@ class SignLogin:
 
     @keyword
     def set_password(self, password: str):
+        """Kirjoittaa salalsanan"""
         self.selib.input_text(self.SignLoginLocators.PASSWORD_FIELD, password)
 
     @keyword
     def set_birthdate(self, day: int, month: int, year: int):
-        """Choose birth of date based on value, day: 1-31, month: 1-12 or year: 1900-2025"""
+        """Aseta syntymäaika"""
         self.selib.select_from_list_by_value(self.SignLoginLocators.BIRTH_DAY, day)
         self.selib.select_from_list_by_label(self.SignLoginLocators.BIRTH_MONTH, month)
         self.selib.select_from_list_by_value(self.SignLoginLocators.BIRTH_YEAR, year)
 
     @keyword
     def set_newsletter(self, subscribe: bool=True):
-        """Select newsletter checkbox or not based on boolean value: True or Not"""
+        """Valitse uutiskirjeen tilaus: True or Not"""
         if subscribe:
             self.selib.select_checkbox(self.SignLoginLocators.NEWSLETTER_CHECKBOX)
         else:
@@ -191,6 +192,7 @@ class SignLogin:
 
     @keyword
     def set_special_offers(self, enable: bool=True):
+        """Valitse erikoistarjous tilaus: True or Not"""
         if enable:
             self.selib.select_checkbox(self.SignLoginLocators.SPECIAL_OFFERS_CHECKBOX)
         else:
@@ -198,6 +200,7 @@ class SignLogin:
 
     @keyword
     def fill_address_info(self, first_name, last_name, company, address1, address2, country, state, city, zip, mobile):
+        """Täyttää osoite tiedot"""
         self.selib.input_text(self.SignLoginLocators.FIRST_NAME, first_name)
         self.selib.input_text(self.SignLoginLocators.LAST_NAME, last_name)
         if company:
@@ -213,6 +216,7 @@ class SignLogin:
 
     @keyword
     def submit_create_account(self, timeout="10s"):
+        """Paina nappia turvallisesti"""
         loc = self.SignLoginLocators.CREATE_ACCOUNT_BUTTON
         self.selib.wait_until_element_is_visible(loc, timeout)
         self.selib.scroll_element_into_view(loc)
@@ -321,7 +325,7 @@ class SignLogin:
 
     @keyword
     def attempt_signup_with_existing_email(self, email, name):
-        """Tries to sign up with an already-used email and verifies the error."""
+        """Yrittää rekisteröityä olemassaolevalla sähköpostilla"""
         self.fill_signup_form(name, email)
         self.press_sign_up_button_safe()
         # Assert the known error text
