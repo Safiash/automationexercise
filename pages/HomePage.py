@@ -98,10 +98,10 @@ class HomePage:
         # Luodaan options-merkkijono
         final_options = ";".join(options_list)
 
-        # 1. Avataan selain
+        # Avataan selain
         self._selib().open_browser(url_to_open, browser=browser_to_use, options=final_options)
 
-        # 2. Jos ollaan NÄKYVÄSSÄ tilassa, maksimoidaan ikkuna nyt
+        # Jos ollaan NÄKYVÄSSÄ tilassa, maksimoidaan ikkuna nyt
         if not headless_mode:
             self._selib().maximize_browser_window()
     
