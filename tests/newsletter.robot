@@ -1,9 +1,9 @@
 *** Settings ***
 
 Library    SeleniumLibrary
-Library    ../pages/HomePage.py
-Library    ../pages/SignLogin.py
-Variables    ../resource/variables/env_var.py
+Library     ../libs/pages/HomePage.py
+Library     ../libs/pages/SignLogin.py
+Variables   ../resource/variables/env_var.py
 
 
 Test Setup    Run Keywords    Open Home Page    headless=True

@@ -1,7 +1,7 @@
 *** Settings ***
 
 Library    SeleniumLibrary
-Library    ../pages/HomePage.py
+Library     ../libs/pages/HomePage.py
 
 Test Setup       Run Keywords    Open Home Page    headless=True
 ...              AND    Set Selenium Implicit Wait    10s
