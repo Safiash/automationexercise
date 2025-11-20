@@ -194,12 +194,6 @@ class HomePage:
         self.click_element(self.HomePageLocators.KIDS_CATEGORY_TOPS)
         self.wait_until_page_contains("Kids - Tops & Shirts Products", timeout="5s")
 
-    def gen_email(pituus=8):
-        merkit = string.ascii_lowercase + string.digits
-        username = "".join(random.choice(merkit) for _ in range(pituus))
-        domain = "gmail.com"
-        return f"{username}@{domain}"
-
 
     # ===================================================
     #           --- ALATASON AVAINSANAT ---
@@ -311,3 +305,9 @@ class HomePage:
         """Lähettää contact us -lomakkeen"""
         self.click_element(self.HomePageLocators.CONTACT_US_SUBMIT)
         self.selib.handle_alert("ACCEPT")
+
+    def gen_email(pituus=8):
+        merkit = string.ascii_lowercase + string.digits
+        username = "".join(random.choice(merkit) for _ in range(pituus))
+        domain = "test.com"
+        return f"{username}@{domain}"
