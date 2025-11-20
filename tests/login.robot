@@ -1,8 +1,8 @@
 *** Settings ***
 
 Library    SeleniumLibrary
-Library    ../pages/SignLogin.py
-Library    ../pages/HomePage.py
+Library     ../libs/pages/SignLogin.py
+Library     ../libs/pages/HomePage.py
 
 Variables    ../resource/variables/env_var.py
 
@@ -12,7 +12,7 @@ Test Teardown    Close Browser
 
 
 *** Test Cases ***
-TC002 Login With Valid Credentials
+TC002/TC013 Login With Valid Credentials
     [Documentation]    Open the signup/login page and login with valid credentials
     Click Sign Up Login Link From Homepage
     Fill Login Form    ${EMAIL}    ${PASSWORD}
