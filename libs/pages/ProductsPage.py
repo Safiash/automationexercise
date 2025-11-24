@@ -24,7 +24,7 @@ class ProductsPage:
         ALL_ADD_TO_CART_LINKS = "css:div.productinfo a.add-to-cart"
         # Hakutulosten lokaattori
         SEARCH_RESULTS_VIEW_PRODUCT = "//a[contains(text(), 'View Product')]"
-        # Prodcut view -sivun lokaattori
+        # Product view -sivun lokaattori
         WRITE_YOUR_REVIEW_TEXT ="//a[normalize-space()='Write Your Review']"
         PRODUCT_REVIEW_NAME_INPUT ="//input[@id='name']"
         PRODUCT_REVIEW_EMAIL_INPUT ="//input[@id='email']"
@@ -180,9 +180,28 @@ class ProductsPage:
         self.add_name_to_review(name)
         self.add_email_to_review(email)
         self.add_text_to_review(review_text)
-        self.click_element(self.ProductsPageLocators.REVIEW_SUBMIT_BUTTON)
-        self.wait_until_element_is_visible(
-            self.ProductsPageLocators.REVIEW_SUCCESS_MESSAGE, timeout="5s")
+
+    @keyword
+    def submit_review_missing_name_failure(self):
+        """Klikkaa tuotearvostelun Submit -nappia ja varmistaa, että 
+           arvostelu ei lähetetty nimen puuttuessa"""
+        msg = "Please fill out this field."
+        self.selib.click_element(self.ProductsPageLocators.REVIEW_SUBMIT_BUTTON)
+        
+        error = self.get_error_message_text_from_product_review_name_field()
+        
+        BuiltIn().should_be_equal(error, msg)
+
+    @keyword
+    def submit_review_missing_text_failure(self):
+        """Klikkaa tuotearvostelun Submit -nappia ja varmistaa, että 
+           arvostelu ei lähetetty arvostelutekstin puuttuessa"""
+        msg = "Please fill out this field."
+        self.selib.click_element(self.ProductsPageLocators.REVIEW_SUBMIT_BUTTON)
+        
+        error = self.get_error_message_text_from_product_review_field()
+        
+        BuiltIn().should_be_equal(error, msg)
 
 
     # ===================================================
@@ -241,4 +260,29 @@ class ProductsPage:
     def add_text_to_review(self, review_text):
         """Syöttää arvostelutekstin tuotearvosteluun"""
         self.selib.input_text(self.ProductsPageLocators.PRODUCT_REVIEW_TEXTAREA, review_text)
+
+    def get_error_message_text_from_product_review_name_field(self):
+        """Hakee tuotearvostelun virheilmoitustekstin puuttuvasta nimestä JavaScriptin avulla"""
+        element = self.selib.find_element(self.ProductsPageLocators.PRODUCT_REVIEW_NAME_INPUT)
+        validation_msg = self.selib.driver.execute_script(
+            "return arguments[0].validationMessage;", element
+        )
+        return validation_msg
+    
+    def get_error_message_text_from_product_review_field(self):
+        """Hakee tuotearvostelun virheilmoitustekstin puuttuvasta nimestä JavaScriptin avulla"""
+        element = self.selib.find_element(self.ProductsPageLocators.PRODUCT_REVIEW_TEXTAREA)
+        validation_msg = self.selib.driver.execute_script(
+            "return arguments[0].validationMessage;", element
+        )
+        return validation_msg
+
+    @keyword
+    def submit_review_succesfully(self):
+        """Klikkaa tuotearvostelun Submit -nappia ja varmistaa, että 
+           arvostelu lähetettiin onnistuneesti"""
+        self.selib.click_element(self.ProductsPageLocators.REVIEW_SUBMIT_BUTTON)
+        self.selib.wait_until_element_is_visible(
+            self.ProductsPageLocators.REVIEW_SUCCESS_MESSAGE, timeout="5s")    
+
         
