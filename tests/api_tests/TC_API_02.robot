@@ -1,6 +1,5 @@
 *** Settings ***
 Library    RequestsLibrary
-Library    BuiltIn
 
 *** Test Cases ***
 API 2: POST To All Products List

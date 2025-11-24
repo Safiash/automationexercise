@@ -33,7 +33,7 @@ TC029 Write Review For A Product Without Username And Email
     Search Product By Name    ${product_name}
     Click View Product After Search
     Write Product Review      ${EMPTY}      ${EMPTY}    ${review_text}
-    Submit Review Missing Name Failure
+    Submit Review Missing Info Failure
 
 TC030 Write Review For A Product Without Review Text
     [Documentation]    Negative test for writing a review for a product without review text

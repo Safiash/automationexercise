@@ -182,13 +182,13 @@ class ProductsPage:
         self.add_text_to_review(review_text)
 
     @keyword
-    def submit_review_missing_name_failure(self):
+    def submit_review_missing_info_failure(self):
         """Klikkaa tuotearvostelun Submit -nappia ja varmistaa, että 
            arvostelu ei lähetetty nimen puuttuessa"""
         msg = "Please fill out this field."
         self.selib.click_element(self.ProductsPageLocators.REVIEW_SUBMIT_BUTTON)
         
-        error = self.get_error_message_text_from_product_review_name_field()
+        error = self.get_error_message_text_from_product_review(self.ProductsPageLocators.PRODUCT_REVIEW_NAME_INPUT)
         
         BuiltIn().should_be_equal(error, msg)
 
@@ -199,7 +199,7 @@ class ProductsPage:
         msg = "Please fill out this field."
         self.selib.click_element(self.ProductsPageLocators.REVIEW_SUBMIT_BUTTON)
         
-        error = self.get_error_message_text_from_product_review_field()
+        error = self.get_error_message_text_from_product_review(self.ProductsPageLocators.PRODUCT_REVIEW_TEXTAREA)
         
         BuiltIn().should_be_equal(error, msg)
 
@@ -261,17 +261,10 @@ class ProductsPage:
         """Syöttää arvostelutekstin tuotearvosteluun"""
         self.selib.input_text(self.ProductsPageLocators.PRODUCT_REVIEW_TEXTAREA, review_text)
 
-    def get_error_message_text_from_product_review_name_field(self):
-        """Hakee tuotearvostelun virheilmoitustekstin puuttuvasta nimestä JavaScriptin avulla"""
-        element = self.selib.find_element(self.ProductsPageLocators.PRODUCT_REVIEW_NAME_INPUT)
-        validation_msg = self.selib.driver.execute_script(
-            "return arguments[0].validationMessage;", element
-        )
-        return validation_msg
-    
-    def get_error_message_text_from_product_review_field(self):
-        """Hakee tuotearvostelun virheilmoitustekstin puuttuvasta nimestä JavaScriptin avulla"""
-        element = self.selib.find_element(self.ProductsPageLocators.PRODUCT_REVIEW_TEXTAREA)
+    def get_error_message_text_from_product_review(self, locator):
+        """Hakee tuotearvostelun virheilmoitustekstin puuttuvasta nimestä JavaScriptin avulla
+        argumenttina annettavan lokaattorin perusteella"""
+        element = self.selib.find_element(locator)
         validation_msg = self.selib.driver.execute_script(
             "return arguments[0].validationMessage;", element
         )
