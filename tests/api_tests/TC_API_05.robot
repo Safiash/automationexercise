@@ -1,5 +1,5 @@
 *** Settings ***
-Library    ../pages/Api.py
+Library    ../libs/api/Api.py
 
 
 *** Test cases ***

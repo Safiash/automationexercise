@@ -49,6 +49,12 @@ robot -d results ADD_YOUR_TEST_NAME_HERE
 ````
 📂 Test results will be saved in the results/ folder.
 ````
+
+Run tests with Pabot:
+````
+pabot --processes 3 tests
+````
+
 Run all tests with tag 'smoke' using command
 
 ```bash

@@ -361,11 +361,16 @@ class SignLogin:
         self.wait_until_page_contains("Your email or password is incorrect!", timeout='5s')
 
     @keyword
-    def check_please_fill_all_fields_message_is_visible(self, expected_message="Please fill out this field."):
-        """Tarkistaa että 'Please fill all fields!' -viesti on näkyvissä"""
+    def check_please_fill_all_fields_message_is_visible(self):
+        """Tarkistaa että 'Please fill out/in this field.' -viesti on näkyvissä"""
+
         message = self.get_element_attribute(
             self.SignLoginLocators.LOGIN_EMAIL, 
             "validationMessage"
         )
-        builtin = BuiltIn()
-        builtin.should_be_equal_as_strings(message, expected_message)
+
+        valid_messages = ["Please fill out this field.", "Please fill in this field."]
+
+        if message not in valid_messages:
+            msg = f"Expected one of {valid_messages}, but got '{message}'"
+            BuiltIn().fail(msg)
