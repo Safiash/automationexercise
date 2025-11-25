@@ -19,6 +19,7 @@ class Payment:
         DOWNLOAD_INVOICE_BUTTON="//a[@class='btn btn-default check_out']"
         CONTINUE_BUTTON="//a[@class='btn btn-primary']"
         MAIN_LOGO="//img[@alt='Website for automation practice']"
+        PLEASE_FILL_OUT_THIS_FIELD_TEXT ="//a[normalize-space()='Please fill out this field.']"
     
     def __init__(self):
         """Määrittää Selenium-kirjaston käytettäväksi myöhempää varten"""
@@ -125,10 +126,39 @@ class Payment:
         self.wait_until_element_is_visible(self.Paymentlocators.ORDER_PLACED_NOTIFICATION, timeout='5s')
 
     @keyword
+    def try_paying_without_name(self):
+        """
+        Jättää nimen tyhjäksi ja yrittää maksaa; varmennukset:
+        1) selaimen HTML5-validointi (valueMissing) palauttaa True name-kentälle
+        2) "Order Placed!" -ilmoitus EI tule näkyviin lyhyen ajan sisällä
+
+        Metodi heittää AssertionErrorin, jos testi epäonnistuu.
+        """
+        card_number = self.get_randomnumbers(20)
+        cvc_number = self.get_randomnumbers(3)
+        month = self.get_randommonth()
+        year = self.get_randomyear()
+
+        self.selib.input_text(self.Paymentlocators.CARD_NUMBER_SLOT, card_number)
+        self.selib.input_text(self.Paymentlocators.CVC_NUMBER_SLOT, cvc_number)
+        self.selib.input_text(self.Paymentlocators.EXPRIRATION_MONTH, str(month))
+        self.selib.input_text(self.Paymentlocators.EXPIRATION_YEAR, str(year))
+        self.click_element(self.Paymentlocators.PAY_AND_CONFIRM_ORDER)
+
+        try:
+            self.selib.wait_until_element_is_visible(
+                self.Paymentlocators.ORDER_PLACED_NOTIFICATION,
+                timeout="5s"
+            )
+            raise AssertionError("FAIL: Maksu meni läpi ilman name-kenttää.")
+        except AssertionError:
+            return
+
+    @keyword
     def download_invoice(self):
         self.wait_until_element_is_visible(self.Paymentlocators.ORDER_PLACED_NOTIFICATION, timeout='5s')
         self.click_element(self.Paymentlocators.DOWNLOAD_INVOICE_BUTTON)
-        
+            
     @keyword
     def verify_invoice_exists(self, timeout=30):
         """

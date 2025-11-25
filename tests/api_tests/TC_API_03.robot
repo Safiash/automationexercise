@@ -1,7 +1,6 @@
 *** Settings ***
 Library    RequestsLibrary
 Library    Collections
-Library    BuiltIn
 
 *** Test Cases ***
 API 3: Get All Brands List

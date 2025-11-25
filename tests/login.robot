@@ -12,7 +12,7 @@ Test Teardown    Close Browser
 
 
 *** Test Cases ***
-TC002 Login With Valid Credentials
+TC002/TC013 Login With Valid Credentials
     [Documentation]    Open the signup/login page and login with valid credentials
     Click Sign Up Login Link From Homepage
     Fill Login Form    ${EMAIL}    ${PASSWORD}
@@ -40,5 +40,3 @@ TC019 Login With Invalid Password
     Fill Login Form    ${EMAIL}    wrongpassword
     Press Login Button
     Check Login Error Message Is Visible
-
-    

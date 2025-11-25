@@ -1,7 +1,6 @@
 *** Settings ***
 Library    RequestsLibrary
 Library    Collections
-Library    BuiltIn
 
 *** Test Cases ***
 API 4: PUT Kaikkien brändien listalle

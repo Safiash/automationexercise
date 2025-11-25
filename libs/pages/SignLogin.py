@@ -108,13 +108,11 @@ class SignLogin:
     #           --- ALATASON AVAINSANAT ---
     # ===================================================
 
-
-    # @keyword
-    # def generate_random_credentials(self):
-    #     """Luo random kahdeksan merkkisen käyttäjänimen ja käyttää sitä myös sähköpostissa"""
-    #     username = ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
-    #     email = f"{username}@example.com"
-    #     return email
+    @keyword
+    def generate_random_text(self):
+        """Luo random kahdeksan merkkisen käyttäjänimen ja käyttää sitä myös sähköpostissa"""
+        text = ''.join(random.choices(string.ascii_lowercase + string.digits, k=10))
+        return text
 
 
     @keyword
@@ -334,6 +332,7 @@ class SignLogin:
             "xpath=//p[normalize-space()='Email Address already exist!']",
             "5s"
         )
+
     def fill_login_form(self, email, password):
         """Täyttää kirjautumissivulla sähköpostin ja salasanan"""
         self.selib.input_text(self.SignLoginLocators.LOGIN_EMAIL, email)
@@ -368,7 +367,7 @@ class SignLogin:
             self.SignLoginLocators.LOGIN_EMAIL, 
             "validationMessage"
         )
-
+        
         valid_messages = ["Please fill out this field.", "Please fill in this field."]
 
         if message not in valid_messages:
