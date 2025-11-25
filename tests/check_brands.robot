@@ -11,7 +11,7 @@ Test Setup       Run Keywords    Open Home Page    headless=True
 Test Teardown    Close Browser
 
 *** Test Cases ***
-Check All Brands From Home Page
+TC043 Check All Brands From Home Page
     [Documentation]    Test to open product page and check all brands navigation
     Login As Valid User       ${EMAIL}    ${PASSWORD}
     Click Products Link From Homepage
