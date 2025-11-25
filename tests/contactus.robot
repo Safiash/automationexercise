@@ -3,6 +3,7 @@
 Library    SeleniumLibrary
 Library     ../libs/pages/HomePage.py
 Library     ../libs/pages/SignLogin.py
+Library     ../libs/pages/ContactUs.py
 Variables    ../resource/variables/env_var.py
 
 
