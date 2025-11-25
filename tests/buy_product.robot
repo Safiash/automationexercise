@@ -25,4 +25,12 @@ TC007 Buy Product When Signed In
     Pay Order    ${USERNAME}
     Go To Main Page
 
+TC042 Purchasing Product With Incomplete Payment Information 
+    Login As Valid User    ${EMAIL}    ${PASSWORD}
+    Click Products Link From Homepage
+    Select Product
+    Proceed To Checkout
+    Place Order
+    Try Paying Without Name
+
 
