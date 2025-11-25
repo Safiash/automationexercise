@@ -40,5 +40,3 @@ TC019 Login With Invalid Password
     Fill Login Form    ${EMAIL}    wrongpassword
     Press Login Button
     Check Login Error Message Is Visible
-
-    

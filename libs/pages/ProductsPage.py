@@ -22,6 +22,7 @@ class ProductsPage:
         CART_LINK = "//a[normalize-space()='Cart']"
         PROCEED_TO_CHECKOUT="//a[@class='btn btn-default check_out']"
         ALL_ADD_TO_CART_LINKS = "css:div.productinfo a.add-to-cart"
+        ALL_BRAND_LINKS = "//div[@class='brands-name']//ul//li//a"
         # Hakutulosten lokaattori
         SEARCH_RESULTS_VIEW_PRODUCT = "//a[contains(text(), 'View Product')]"
         # Product view -sivun lokaattori
@@ -202,6 +203,27 @@ class ProductsPage:
         error = self.get_error_message_text_from_product_review(self.ProductsPageLocators.PRODUCT_REVIEW_TEXTAREA)
         
         BuiltIn().should_be_equal(error, msg)
+
+    @keyword
+    def verify_all_brands_navigation(self):
+        """
+        Etsii kaikki brändit 'Brands'-sivupalkista, klikkaa niitä vuorotellen
+        ja varmistaa, että brändin sivu aukeaa oikein.
+        """
+        loc = self.ProductsPageLocators.ALL_BRAND_LINKS
+        
+        self.selib.wait_until_element_is_visible(loc)
+        # Laskee brändilinkkien määrän
+        count = self.selib.get_element_count(loc)
+
+        # Käy läpi kaikki brändit
+        for i in range(1, count + 1):
+            current_brand_locator = f"({loc})[{i}]"
+            self.selib.wait_until_element_is_visible(current_brand_locator)
+            link_text = self.selib.get_text(current_brand_locator)
+            self.selib.click_element(current_brand_locator)
+            self.selib.wait_until_page_contains("Brand -", timeout="5s")
+            self.selib.go_back()
 
 
     # ===================================================
