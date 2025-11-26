@@ -5,10 +5,18 @@ from selenium.common.exceptions import ElementClickInterceptedException
 
 
 class Checkout:
+
+
+    # ===================================================
+    #               --- LOKAATTORIT ---
+    # ===================================================
     class Checkoutlocators:
         PLACE_ORDER="//a[@class='btn btn-default check_out']"
         PAYMENT="//h2[@class='heading']"
-        DELIVERY_ADDRESS = "//ul[@id='address_delivery']//li[contains(@class,'address_address1') and normalize-space()!='']"
+
+    # ===================================================
+    #                   --- SETUP ---
+    # ===================================================
     
     def __init__(self):
         """Määrittää Selenium-kirjaston käytettäväksi myöhempää varten"""
@@ -29,9 +37,21 @@ class Checkout:
 
     def __getattr__(self, name):
         return getattr(self._selib(), name)
+    
+    # ===================================================
+    #           --- YLÄTASON AVAINSANAT ---
+    # ===================================================
 
+
+    # ===================================================
+    #           --- ALATASON AVAINSANAT ---
+    # ===================================================
+    
     @keyword
     def place_order(self):
+        """
+        Painaa place order-nappulaa ja odottaa että payment-otsikko tulee näkyviin.
+        """
         self.click_element(self.Checkoutlocators.PLACE_ORDER)
         self.wait_until_element_is_visible(self.Checkoutlocators.PAYMENT, timeout='5s')
 

@@ -17,6 +17,8 @@ Test Teardown    Close Browser
 *** Test Cases ***
 
 TC012 Download Invoice As A Registered User
+    [Documentation]    Purchase the product, download the receipt,
+    ...     and then check to see if the receipt appears in your computer's Downloads folder.
     Login As Valid User    ${EMAIL}    ${PASSWORD}
     Click Products Link From Homepage
     Select Product

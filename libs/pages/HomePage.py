@@ -194,6 +194,16 @@ class HomePage:
         self.click_element(self.HomePageLocators.KIDS_CATEGORY_TOPS)
         self.wait_until_page_contains("Kids - Tops & Shirts Products", timeout="5s")
 
+    def choose_recommended_item(self):
+        """
+        Valitsee suositelluista tuotteista paidan, lisää ostokoriin ja menee
+        lisätty ostokoriin-ilmoituksen ostokori-sivulle.
+        """
+        self.click_element(self.HomePageLocators.ADD_TO_CART_BUTTON)
+        self.wait_until_element_is_visible(self.HomePageLocators.ADDED_TO_CART_NOTIFICATION, timeout="5s")
+        self.click_element(self.HomePageLocators.VIEW_CART_FROM_NOTIFICATION)
+        self.wait_until_element_is_visible(self.HomePageLocators.PROCEED_TO_CHECKOUT, timeout='5s')
+
 
     # ===================================================
     #           --- ALATASON AVAINSANAT ---
@@ -297,15 +307,13 @@ class HomePage:
         domain = "test.com"
         return f"{username}@{domain}"
     
-    def choose_recommended_item(self):
+    def scroll_down(self):
         """
-        Skrollaa ensin sivulla recommended items-tuotteiden luokse, valitsee paidan, lisää ostokoriin ja menee
-        lisätty ostokoriin-ilmoituksen ostokori-sivulle.
+        Skrollaa ensin sivulla recommended items-tuotteiden luokse ja tarkistaa että näkyykö paidan id-numero
         """
         self.scroll_element_into_view(self.HomePageLocators.RECOMMENDED_ITEMS_HEADER)
         self.wait_until_element_is_visible(self.HomePageLocators.RECOMMENDED_SHIRT_ID_NUMBER, timeout="5s")
-        self.click_element(self.HomePageLocators.ADD_TO_CART_BUTTON)
-        self.wait_until_element_is_visible(self.HomePageLocators.ADDED_TO_CART_NOTIFICATION, timeout="5s")
-        self.click_element(self.HomePageLocators.VIEW_CART_FROM_NOTIFICATION)
-        self.wait_until_element_is_visible(self.HomePageLocators.PROCEED_TO_CHECKOUT, timeout='5s')
+
+    
+
 
