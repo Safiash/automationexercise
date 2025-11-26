@@ -291,6 +291,11 @@ class SignLogin:
         bi.set_test_variable("${EMAIL}", email)
         bi.set_test_variable("${PASSWORD}", password)
         bi.set_test_variable("${MOBILENUMBER}", mobile)
+        bi.set_test_variable("${ADDRESS1}", p["addr1"])
+        bi.set_test_variable("${ADDRESS2}", p["addr2"])
+        bi.set_test_variable("${CITY}", p["city"])
+        bi.set_test_variable("${ZIP}", p["zip"])
+        bi.set_test_variable("${COUNTRY}", p["country"])
 
         # nyt täytetään lomakkeet käyttämällä p ja generoitua dataa
         HomePage = bi.get_library_instance("HomePage")
@@ -312,8 +317,8 @@ class SignLogin:
         country=p["country"],
         state=p["state"],
         city=p["city"],
-        zip=p["zip"],   # <- explicitly zip
-        mobile=str(mobile), # <- explicitly mobile (as string)
+        zip=p["zip"],   
+        mobile=str(mobile), 
         newsletter=p["newsletter"],
         special_offers=p["special_offers"]
     )
