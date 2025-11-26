@@ -19,8 +19,8 @@ Test Teardown    Close Browser
 
 *** Test Cases ***
 
-TC004 Create New User With Valid Default Values
-    [Documentation]    Sign up with default values
+TC033 Checkout Address Is Correct
+    [Documentation]    Check that address is correct and the same than with registeration
     Sign Up New User
     Click Products Link From Homepage
     Select Product
