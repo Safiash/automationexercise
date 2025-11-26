@@ -7,6 +7,11 @@ from selenium.common.exceptions import ElementClickInterceptedException
 
 
 class Payment:
+
+
+    # ===================================================
+    #               --- LOKAATTORIT ---
+    # ===================================================
     class Paymentlocators:
         PAYMENT_HEADER="//h2[@class='heading']"
         NAME_ON_CARD_SLOT="//input[@name='name_on_card']"
@@ -20,6 +25,10 @@ class Payment:
         CONTINUE_BUTTON="//a[@class='btn btn-primary']"
         MAIN_LOGO="//img[@alt='Website for automation practice']"
         PLEASE_FILL_OUT_THIS_FIELD_TEXT ="//a[normalize-space()='Please fill out this field.']"
+    
+    # ===================================================
+    #                   --- SETUP ---
+    # ===================================================
     
     def __init__(self):
         """Määrittää Selenium-kirjaston käytettäväksi myöhempää varten"""
@@ -41,23 +50,10 @@ class Payment:
     def __getattr__(self, name):
         return getattr(self._selib(), name)
     
-    @staticmethod
-    def get_randomnumbers(length):
-        numbers = [0,1,2,3,4,5,6,7,8,9]
-        random_numbers_list = random.choices(numbers, k=length)
-        return "".join(str(num) for num in random_numbers_list)
-    
-    @staticmethod
-    def get_randommonth():
-        months=[1,2,3,4,5,6,7,8,9,10,11,12]
-        random_month = random.choice(months)
-        return random_month
-    
-    @staticmethod
-    def get_randomyear():
-        years=[2026, 2027, 2028, 2029]
-        random_year = random.choice(years)
-        return random_year
+    # ===================================================
+    #           --- YLÄTASON AVAINSANAT ---
+    # ===================================================
+
     
     def _safe_click(self, loc):
         """
@@ -153,11 +149,6 @@ class Payment:
             raise AssertionError("FAIL: Maksu meni läpi ilman name-kenttää.")
         except AssertionError:
             return
-
-    @keyword
-    def download_invoice(self):
-        self.wait_until_element_is_visible(self.Paymentlocators.ORDER_PLACED_NOTIFICATION, timeout='5s')
-        self.click_element(self.Paymentlocators.DOWNLOAD_INVOICE_BUTTON)
             
     @keyword
     def verify_invoice_exists(self, timeout=30):
@@ -179,9 +170,51 @@ class Payment:
 
     @keyword
     def go_to_main_page(self):
+        """
+        Navigoi takaisin etusivulle ja tarkistaa, että sivuston logo on näkyvissä.
+        """
         self.wait_until_element_is_visible(self.Paymentlocators.ORDER_PLACED_NOTIFICATION, timeout='5s')
         self.click_element(self.Paymentlocators.CONTINUE_BUTTON)
         self.wait_until_element_is_visible(self.Paymentlocators.MAIN_LOGO, timeout='5s')
 
 
 
+    # ===================================================
+    #           --- ALATASON AVAINSANAT ---
+    # ===================================================
+
+        
+    @staticmethod
+    def get_randomnumbers(length):
+        """
+        Arpoo sattumanvaraisesti listan numeroista testissä määritellyn mittaisen yhtenäisen lukujonon.
+        """
+        numbers = [0,1,2,3,4,5,6,7,8,9]
+        random_numbers_list = random.choices(numbers, k=length)
+        return "".join(str(num) for num in random_numbers_list)
+    
+    @staticmethod
+    def get_randommonth():
+        """
+        Arpoo sattumanvaraisen kuukauden listasta.
+        """
+        months=[1,2,3,4,5,6,7,8,9,10,11,12]
+        random_month = random.choice(months)
+        return random_month
+    
+    @staticmethod
+    def get_randomyear():
+        """
+        Arpoo listasta sattumanvaraisen vuoden.
+        """
+        years=[2026, 2027, 2028, 2029]
+        random_year = random.choice(years)
+        return random_year
+    
+    @keyword
+    def download_invoice(self):
+        """
+        Odottaa että order placed notifikaatio näkyy ja painaa sitten download invoice-nappulaa.
+        """
+        self.wait_until_element_is_visible(self.Paymentlocators.ORDER_PLACED_NOTIFICATION, timeout='5s')
+        self.click_element(self.Paymentlocators.DOWNLOAD_INVOICE_BUTTON)

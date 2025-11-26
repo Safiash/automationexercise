@@ -118,6 +118,10 @@ class Cart:
 
     @keyword
     def check_cart(self):
+        """
+        Tarkistaa, että ostokorissa on tuote katsomalla,
+        näkyykö poista tuote/poista rivi nappulaa, jos näkyvissä on empty cart ilmoitus, nostaa errorin"
+        """
         selib = BuiltIn().get_library_instance("SeleniumLibrary")
         builtin = BuiltIn()
 

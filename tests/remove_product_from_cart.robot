@@ -17,6 +17,7 @@ Test Teardown    Close Browser
 
 *** Test Cases ***
 TC009 Product Removal From The Cart
+    [Documentation]    Let's test whether a product added to the shopping cart can be removed from the cart.
     Login As Valid User    ${EMAIL}    ${PASSWORD}
     Click Products Link From Homepage
     Select Product
