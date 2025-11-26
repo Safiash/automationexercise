@@ -37,12 +37,12 @@ class HomePage:
         # Muut etusivun lokaattorit
         SUBMIT_EMAIL = "//input[@id='susbscribe_email']"
         SUBSCRIBE_NEWSLETTER = "//*[@id='subscribe']"
-        CONTACT_US_NAME = "//input[@placeholder='Name']"
-        CONTACT_US_EMAIL = "//input[@placeholder='Email']"
-        CONTACT_US_SUBJECT = "//input[@placeholder='Subject']"
-        CONTACT_US_MESSAGE = "//textarea[@id='message']"
-        CONTACT_US_SUBMIT = "//input[@name='submit']"
-
+        RECOMMENDED_ITEMS_HEADER = "//h2[normalize-space()='recommended items']"
+        RECOMMENDED_SHIRT_ID_NUMBER="//div[@class='item active']//h2[contains(text(),'Rs. 500')]"
+        ADD_TO_CART_BUTTON="//div[@class='item active']//div[1]//div[1]//div[1]//div[1]//a[1]"
+        ADDED_TO_CART_NOTIFICATION="//h4[@class='modal-title w-100']"
+        VIEW_CART_FROM_NOTIFICATION="//u[normalize-space()='View Cart']"
+        PROCEED_TO_CHECKOUT="//a[@class='btn btn-default check_out']"
     
     # ===================================================
     #                   --- SETUP ---
@@ -246,6 +246,12 @@ class HomePage:
         self.wait_until_page_contains("Get In Touch", timeout="5s")
 
     @keyword
+    def click_logo_from_homepage(self):
+        """Klikkaa etusivulla olevaa logoa"""
+        self.click_element(self.HomePageLocators.LOGO)
+        self.wait_until_element_is_visible(self.HomePageLocators.LOGO, timeout="5s")
+
+    @keyword
     def click_signup_login_link_from_homepage(self):
         """Klikkaa etusivulla olevaa Signup / Login -linkkiä"""
         self.click_element(self.HomePageLocators.SIGNUP_LOGIN_LINK)
@@ -285,29 +291,21 @@ class HomePage:
         self.click_element(self.HomePageLocators.SUBSCRIBE_NEWSLETTER)
         self.wait_until_element_is_visible(self.HomePageLocators.SUBSCRIBE_NEWSLETTER, timeout="5s")
 
-    def submit_name(self, name):
-        """Täyttää nimen contact us -lomakkeeseen"""
-        self.selib.input_text(self.HomePageLocators.CONTACT_US_NAME, name)
-
-    def submit_email_contactus(self, email):
-        """Täyttää sähköpostiosoitteen contact us -lomakkeeseen"""
-        self.selib.input_text(self.HomePageLocators.CONTACT_US_EMAIL, email)
-
-    def submit_subject(self, subject):
-        """Täyttää viestin otsikon contact us -lomakkeeseen"""
-        self.selib.input_text(self.HomePageLocators.CONTACT_US_SUBJECT, subject)
-
-    def submit_message(self, message):
-        """Täyttää tekstiosion contact us -lomakkeeseen"""
-        self.selib.input_text(self.HomePageLocators.CONTACT_US_MESSAGE, message)
-
-    def submit_contact_us(self):
-        """Lähettää contact us -lomakkeen"""
-        self.click_element(self.HomePageLocators.CONTACT_US_SUBMIT)
-        self.selib.handle_alert("ACCEPT")
-
     def gen_email(pituus=8):
         merkit = string.ascii_lowercase + string.digits
         username = "".join(random.choice(merkit) for _ in range(pituus))
         domain = "test.com"
         return f"{username}@{domain}"
+    
+    def choose_recommended_item(self):
+        """
+        Skrollaa ensin sivulla recommended items-tuotteiden luokse, valitsee paidan, lisää ostokoriin ja menee
+        lisätty ostokoriin-ilmoituksen ostokori-sivulle.
+        """
+        self.scroll_element_into_view(self.HomePageLocators.RECOMMENDED_ITEMS_HEADER)
+        self.wait_until_element_is_visible(self.HomePageLocators.RECOMMENDED_SHIRT_ID_NUMBER, timeout="5s")
+        self.click_element(self.HomePageLocators.ADD_TO_CART_BUTTON)
+        self.wait_until_element_is_visible(self.HomePageLocators.ADDED_TO_CART_NOTIFICATION, timeout="5s")
+        self.click_element(self.HomePageLocators.VIEW_CART_FROM_NOTIFICATION)
+        self.wait_until_element_is_visible(self.HomePageLocators.PROCEED_TO_CHECKOUT, timeout='5s')
+

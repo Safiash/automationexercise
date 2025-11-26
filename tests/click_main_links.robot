@@ -15,3 +15,8 @@ TC015 Click All Main Links From Home Page
     Click Signup Login Link From Homepage
     Click Contact Us Link From Homepage
     Click Home Link From Homepage
+
+TC041 Click Logo In Home Page
+    [Documentation]    Opens another page first and then returns to the home page by clicking the logo
+    Click Products Link From Homepage
+    Click Logo From Homepage

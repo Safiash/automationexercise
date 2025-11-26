@@ -1,5 +1,6 @@
 from robot.api.deco import keyword
 from robot.libraries.BuiltIn import BuiltIn, RobotNotRunningError
+from robot.libraries.BuiltIn import BuiltIn
 
 
 class Cart:
@@ -113,4 +114,25 @@ class Cart:
         if locator_str.startswith("css:"):
             return locator_str[4:].strip()
         return locator_str.strip()
-    
+
+
+    @keyword
+    def check_cart(self):
+        selib = BuiltIn().get_library_instance("SeleniumLibrary")
+        builtin = BuiltIn()
+
+        delete_btn = self.CartPageLocators.DELETE_ITEM_FROM_BASKET_BUTTON
+        empty_msg = self.CartPageLocators.EMPTY_CART_MESSAGE
+
+        delete_visible = builtin.run_keyword_and_return_status(
+            "Element Should Be Visible", delete_btn)
+
+        if delete_visible:
+            return
+        
+        empty_visible = builtin.run_keyword_and_return_status(
+            "Element Should Be Visible", empty_msg)
+
+        if empty_visible:
+            raise AssertionError("Cart is empty — expected delete button to be visible.")
+
