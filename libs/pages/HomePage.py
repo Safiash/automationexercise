@@ -37,6 +37,12 @@ class HomePage:
         # Muut etusivun lokaattorit
         SUBMIT_EMAIL = "//input[@id='susbscribe_email']"
         SUBSCRIBE_NEWSLETTER = "//*[@id='subscribe']"
+        RECOMMENDED_ITEMS_HEADER = "//h2[normalize-space()='recommended items']"
+        RECOMMENDED_SHIRT_ID_NUMBER="//div[@class='item active']//h2[contains(text(),'Rs. 500')]"
+        ADD_TO_CART_BUTTON="//div[@class='item active']//div[1]//div[1]//div[1]//div[1]//a[1]"
+        ADDED_TO_CART_NOTIFICATION="//h4[@class='modal-title w-100']"
+        VIEW_CART_FROM_NOTIFICATION="//u[normalize-space()='View Cart']"
+        PROCEED_TO_CHECKOUT="//a[@class='btn btn-default check_out']"
     
     # ===================================================
     #                   --- SETUP ---
@@ -290,3 +296,16 @@ class HomePage:
         username = "".join(random.choice(merkit) for _ in range(pituus))
         domain = "test.com"
         return f"{username}@{domain}"
+    
+    def choose_recommended_item(self):
+        """
+        Skrollaa ensin sivulla recommended items-tuotteiden luokse, valitsee paidan, lisää ostokoriin ja menee
+        lisätty ostokoriin-ilmoituksen ostokori-sivulle.
+        """
+        self.scroll_element_into_view(self.HomePageLocators.RECOMMENDED_ITEMS_HEADER)
+        self.wait_until_element_is_visible(self.HomePageLocators.RECOMMENDED_SHIRT_ID_NUMBER, timeout="5s")
+        self.click_element(self.HomePageLocators.ADD_TO_CART_BUTTON)
+        self.wait_until_element_is_visible(self.HomePageLocators.ADDED_TO_CART_NOTIFICATION, timeout="5s")
+        self.click_element(self.HomePageLocators.VIEW_CART_FROM_NOTIFICATION)
+        self.wait_until_element_is_visible(self.HomePageLocators.PROCEED_TO_CHECKOUT, timeout='5s')
+
