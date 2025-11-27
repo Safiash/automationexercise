@@ -37,6 +37,7 @@ class Checkout:
 
     @keyword
     def address_line1_should_match_registration(self):
+        """Tarkistetaan onko osoite kassalla sama kuin rekisteröintivaiheessa"""
         bi = BuiltIn()
         expected_addr1 = bi.get_variable_value("${ADDRESS1}")
         actual_addr1 = self.selib.get_text(self.Checkoutlocators.DELIVERY_ADDRESS)
