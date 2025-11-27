@@ -23,6 +23,8 @@ class ProductsPage:
         PROCEED_TO_CHECKOUT="//a[@class='btn btn-default check_out']"
         ALL_ADD_TO_CART_LINKS = "css:div.productinfo a.add-to-cart"
         ALL_BRAND_LINKS = "//div[@class='brands-name']//ul//li//a"
+        SUBSCRIPTION_HEADER_BOTTOM_OF_PAGE = "//h2[normalize-space()='Subscription']"
+        ARROW_BUTTON = "css:a[href='#top']"
         # Hakutulosten lokaattori
         SEARCH_RESULTS_VIEW_PRODUCT = "//a[contains(text(), 'View Product')]"
         # Product view -sivun lokaattori
@@ -299,5 +301,21 @@ class ProductsPage:
         self.selib.click_element(self.ProductsPageLocators.REVIEW_SUBMIT_BUTTON)
         self.selib.wait_until_element_is_visible(
             self.ProductsPageLocators.REVIEW_SUCCESS_MESSAGE, timeout="5s")    
+
+    @keyword    
+    def scroll_to_the_bottom_of_page(self):
+        """Selaa alas sivulle, kunnes Subscription -otsikko on näkyvissä"""
+        loc = self.ProductsPageLocators.SUBSCRIPTION_HEADER_BOTTOM_OF_PAGE
+        self.selib.wait_until_element_is_visible(loc, timeout='5s')
+        self.selib.scroll_element_into_view(loc)
+
+    @keyword
+    def go_back_to_top_using_arrow_button(self):
+        """Klikkaa sivun alareunassa näkyvää nuoli ylös -painiketta, joka vie sivun yläreunaan"""
+        loc = self.ProductsPageLocators.ARROW_BUTTON
+        self.selib.wait_until_element_is_visible(loc, timeout='5s')
+        self.selib.click_element(loc)
+        self.selib.wait_until_element_is_visible(
+            self.ProductsPageLocators.ALL_PRODUCTS_HEADER, timeout='5s')
 
         

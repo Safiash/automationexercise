@@ -13,7 +13,7 @@ Test Teardown    Close Browser
 
 *** Test Cases ***
 TC002/TC013 Login With Valid Credentials
-    [Documentation]    Open the signup/login page and login with valid credentials
+    [Documentation]    Test for login with valid credentials
     Click Sign Up Login Link From Homepage
     Fill Login Form    ${EMAIL}    ${PASSWORD}
     Press Login Button
@@ -21,21 +21,21 @@ TC002/TC013 Login With Valid Credentials
     Press Logout Button
 
 TC003 Login With Invalid Credentials
-    [Documentation]    Open the signup/login page and try login with invalid credentials
+    [Documentation]    Negative login test with invalid credentials
     Click Sign Up Login Link From Homepage
     Fill Login Form    wrong@wrong.com    wrongpassword
     Press Login Button
     Check Login Error Message Is Visible
 
 TC018 Login With Empty Credentials
-    [Documentation]    Open the signup /login page and try login with empty credentials
+    [Documentation]    Negative login test with empty credentials
     Click Sign Up Login Link From Homepage
     Fill Login Form        ${EMPTY}    ${EMPTY}
     Press Login Button
     Check Please Fill All Fields Message Is Visible
 
 TC019 Login With Invalid Password
-    [Documentation]    Open the signup/login page and try login with invalid password
+    [Documentation]    Negative login test with invalid password
     Click Sign Up Login Link From Homepage
     Fill Login Form    ${EMAIL}    wrongpassword
     Press Login Button
