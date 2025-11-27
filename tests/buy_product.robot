@@ -17,6 +17,7 @@ Test Teardown    Close Browser
 *** Test Cases ***
 
 TC007 Buy Product When Signed In
+    [Documentation]    Testing product purchasing via the products page. 
     Login As Valid User    ${EMAIL}    ${PASSWORD}
     Click Products Link From Homepage
     Select Product
@@ -26,6 +27,7 @@ TC007 Buy Product When Signed In
     Go To Main Page
 
 TC042 Purchasing Product With Incomplete Payment Information 
+    [Documentation]    Test purchasing the product with incomplete payment information, name missing. 
     Login As Valid User    ${EMAIL}    ${PASSWORD}
     Click Products Link From Homepage
     Select Product

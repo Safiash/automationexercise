@@ -1,12 +1,22 @@
 from robot.api.deco import keyword
+from SeleniumLibrary import SeleniumLibrary
 from robot.libraries.BuiltIn import BuiltIn, RobotNotRunningError
 from selenium.common.exceptions import ElementClickInterceptedException
 
 
 class Checkout:
+
+
+    # ===================================================
+    #               --- LOKAATTORIT ---
+    # ===================================================
     class Checkoutlocators:
         PLACE_ORDER="//a[@class='btn btn-default check_out']"
         PAYMENT="//h2[@class='heading']"
+
+    # ===================================================
+    #                   --- SETUP ---
+    # ===================================================
     
     def __init__(self):
         """Määrittää Selenium-kirjaston käytettäväksi myöhempää varten"""
@@ -27,8 +37,29 @@ class Checkout:
 
     def __getattr__(self, name):
         return getattr(self._selib(), name)
+    
+    # ===================================================
+    #           --- YLÄTASON AVAINSANAT ---
+    # ===================================================
 
+
+    # ===================================================
+    #           --- ALATASON AVAINSANAT ---
+    # ===================================================
+    
     @keyword
     def place_order(self):
+        """
+        Painaa place order-nappulaa ja odottaa että payment-otsikko tulee näkyviin.
+        """
         self.click_element(self.Checkoutlocators.PLACE_ORDER)
         self.wait_until_element_is_visible(self.Checkoutlocators.PAYMENT, timeout='5s')
+
+    @keyword
+    def address_line1_should_match_registration(self):
+        bi = BuiltIn()
+        expected_addr1 = bi.get_variable_value("${ADDRESS1}")
+        actual_addr1 = self.selib.get_text(self.Checkoutlocators.DELIVERY_ADDRESS)
+        bi.log_to_console(f"EXPECTED ADDRESS1: '{expected_addr1}'")
+        bi.log_to_console(f"ACTUAL ADDRESS1:   '{actual_addr1}'")
+        bi.should_be_equal(actual_addr1, expected_addr1)

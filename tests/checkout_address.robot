@@ -1,8 +1,8 @@
 *** Settings ***
 
 Library    SeleniumLibrary
-Library     ../libs/pages/HomePage.py
 Library     ../libs/pages/SignLogin.py
+Library     ../libs/pages/HomePage.py
 Library     ../libs/pages/ProductsPage.py
 Library     ../libs/pages/Cart.py
 Library     ../libs/pages/Checkout.py
@@ -10,20 +10,19 @@ Library     ../libs/pages/Payment.py
 Variables    ../resource/variables/env_var.py
 
 
-Test Setup    Run Keywords    Open Home Page    headless=True
+Test Setup       Run Keywords    Open Home Page    headless=False
 ...              AND    Set Selenium Implicit Wait    10s
 Test Teardown    Close Browser
 
+*** Variables ***
+
+
 *** Test Cases ***
 
-TC012 Download Invoice As A Registered User
-    [Documentation]    Purchase the product, download the receipt,
-    ...     and then check to see if the receipt appears in your computer's Downloads folder.
-    Login As Valid User    ${EMAIL}    ${PASSWORD}
+TC033 Checkout Address Is Correct
+    [Documentation]    Check that address is correct and the same than with registeration
+    Sign Up New User
     Click Products Link From Homepage
     Select Product
     Proceed To Checkout
-    Place Order
-    Pay Order    ${USERNAME}
-    Download Invoice
-    Verify Invoice Exists    30
+    Address Line1 Should Match Registration

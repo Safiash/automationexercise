@@ -3,6 +3,10 @@ from robot.libraries.BuiltIn import BuiltIn, RobotNotRunningError
 
 
 class ContactUs:
+    
+    # ===================================================
+    #               --- LOKAATTORIT ---
+    # ===================================================
 
         class ContactUsLocators:
             CONTACT_US_NAME = "//input[@placeholder='Name']"
@@ -10,6 +14,10 @@ class ContactUs:
             CONTACT_US_SUBJECT = "//input[@placeholder='Subject']"
             CONTACT_US_MESSAGE = "//textarea[@id='message']"
             CONTACT_US_SUBMIT = "//input[@name='submit']"
+        
+    # ===================================================
+    #                   --- SETUP ---
+    # ===================================================
 
         def __init__(self):
         # Alusta selib Noneksi
@@ -24,6 +32,15 @@ class ContactUs:
                     # Käsittele tilanne, jos luokkaa kutsutaan Robot Frameworkin ulkopuolella
                     pass 
             return self.selib
+        
+    # ===================================================
+    #           --- YLÄTASON AVAINSANAT ---
+    # ===================================================
+
+
+    # ===================================================
+    #           --- ALATASON AVAINSANAT ---
+    # ===================================================
 
         def __getattr__(self, name):
             # Delegoi puuttuvat avainsanat SeleniumLibrarylle
