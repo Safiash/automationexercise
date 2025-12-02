@@ -114,9 +114,9 @@ class Api:
 
         return data
 
-    # --------------------------------------------------------------
+
     # API 1 – GET /productsList
-    # --------------------------------------------------------------
+
     def get_all_products(self) -> requests.Response:
         url = f"{self.BASE_URL}/productsList"
         return requests.get(url)
@@ -145,9 +145,9 @@ class Api:
 
         return data
 
-    # --------------------------------------------------------------
+
     # API 2 – POST /productsList
-    # --------------------------------------------------------------
+
     def post_products_list(self) -> requests.Response:
         url = f"{self.BASE_URL}/productsList"
         return requests.post(url)
@@ -173,9 +173,9 @@ class Api:
 
         return data
 
-    # --------------------------------------------------------------
+
     # API 3 – GET /brandsList
-    # --------------------------------------------------------------
+
     def get_all_brands(self) -> requests.Response:
         url = f"{self.BASE_URL}/brandsList"
         return requests.get(url)
@@ -225,9 +225,9 @@ class Api:
 
         return data
 
-    # --------------------------------------------------------------
+
     # API 7 – POST /verifyLogin (validit tunnukset)
-    # --------------------------------------------------------------
+
     def verify_login(self, email: str, password: str) -> requests.Response:
         """
         POST /verifyLogin email- ja password-parametreilla.

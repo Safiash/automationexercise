@@ -5,3 +5,4 @@ robotframework-seleniumlibrary
 pandas
 python-dotenv
 robotframework-requests
+requests
