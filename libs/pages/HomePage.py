@@ -307,6 +307,7 @@ class HomePage:
         domain = "test.com"
         return f"{username}@{domain}"
     
+    
     def scroll_down(self):
         """
         Skrollaa ensin sivulla recommended items-tuotteiden luokse ja tarkistaa että näkyykö paidan id-numero
