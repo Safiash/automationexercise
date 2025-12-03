@@ -2,11 +2,18 @@ pipeline {
     agent any
 
     stages {
-        stage('Hello') {
-            steps {
-                echo 'Hello World'
-                sh 'echo "Hello Jenkins"'
+        stage('UI Tests') {
+            agent {
+                image 'automation'
+                reuseNode true
             }
+            steps {
+                dir('tests') {
+                    sh 'robot -d results tests/.'
+
+                }
+            }
+
         }
     }
 }
