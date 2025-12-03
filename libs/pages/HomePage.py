@@ -308,7 +308,7 @@ class HomePage:
         domain = "test.com"
         return f"{username}@{domain}"
     
-
+<<<<<<<<< Temporary merge branch 1
     @keyword
     def scroll_down_to_recommended_items(self):
         """
