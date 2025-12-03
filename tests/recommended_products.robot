@@ -17,7 +17,7 @@ Test Teardown    Close Browser
 TC031 Coose A Product From Recommended Items
     [Documentation]    Test scrolling to the bottom of the page, to the recommended item section,
     ...     selects a product from there, goes to the cart, checks and clears the cart.
-    Scroll Down
+    Scroll Down To Recommended Items
     Choose Recommended Item
     Check Cart
     Empty Shopping Cart
