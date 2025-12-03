@@ -304,10 +304,8 @@ class ProductsPage:
 
     @keyword    
     def scroll_to_the_bottom_of_page(self):
-        """Selaa alas sivulle, kunnes Subscription -otsikko on näkyvissä"""
-        loc = self.ProductsPageLocators.SUBSCRIPTION_HEADER_BOTTOM_OF_PAGE
-        self.selib.wait_until_element_is_visible(loc, timeout='5s')
-        self.selib.scroll_element_into_view(loc)
+        """Selaa sivun alas loppuun asti"""
+        self.selib.execute_javascript("window.scrollTo(0, document.body.scrollHeight);")
 
     @keyword
     def go_back_to_top_using_arrow_button(self):

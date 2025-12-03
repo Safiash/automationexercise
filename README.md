@@ -55,17 +55,23 @@ Run tests with Pabot:
 pabot --processes 3 tests
 ````
 
-Run all tests with tag 'smoke' using command
+## Running tests with Docker
 
-```bash
-# tähän command
+Start Docker Daemon using Docker Desktop or WSL Ubuntu if installed there. 
+
+### Prerequisites
+
+- Docker Desktop
+
+### Build the Docker image:
+
+```
+docker build -t <YOUR_IMAGE_NAME_HERE> .
 ```
 
-### Tags 
-Currently used tags in the repository:
+### Run the image with tests:
 
-```bash
-# tähän command
+```
+docker run --rm <YOUR_IMAGE_NAME_HERE>
 ```
 
-### 

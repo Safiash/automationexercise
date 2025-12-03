@@ -194,6 +194,7 @@ class HomePage:
         self.click_element(self.HomePageLocators.KIDS_CATEGORY_TOPS)
         self.wait_until_page_contains("Kids - Tops & Shirts Products", timeout="5s")
 
+    @keyword
     def choose_recommended_item(self):
         """
         Valitsee suositelluista tuotteista paidan, lisää ostokoriin ja menee
@@ -307,14 +308,10 @@ class HomePage:
         domain = "test.com"
         return f"{username}@{domain}"
     
-    
-    def scroll_down(self):
+    @keyword
+    def scroll_down_to_recommended_items(self):
         """
         Skrollaa ensin sivulla recommended items-tuotteiden luokse ja tarkistaa että näkyykö paidan id-numero
         """
         self.scroll_element_into_view(self.HomePageLocators.RECOMMENDED_ITEMS_HEADER)
         self.wait_until_element_is_visible(self.HomePageLocators.RECOMMENDED_SHIRT_ID_NUMBER, timeout="5s")
-
-    
-
-
