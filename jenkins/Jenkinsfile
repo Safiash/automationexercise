@@ -5,8 +5,8 @@ pipeline {
         stage('UI Tests') {
             agent {
                 docker {
-                    image 'automation'
-                    reuseNode true
+                    filename 'Dockerfile'   // tai joku muu nimi jos eri
+                    additionalBuildArgs '--pull'
                 }
             }
             steps {
