@@ -9,7 +9,9 @@ pipeline {
             }
             steps {
                 dir('tests') {
-                    sh 'robot -d results tests/.'
+                    sh 'robot --version'
+                    sh 'ls'
+                    sh 'robot -d results .'
 
                 }
             }
