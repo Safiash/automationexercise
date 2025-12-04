@@ -1,23 +1,25 @@
 pipeline {
-    agent none
+    agent {
+        dockerfile {
+            filename 'Dockerfile' 
+            dir '.'                 
+            additionalBuildArgs '--pull'
+        }
+    }
 
     stages {
         stage('UI Tests') {
-            agent {
-                docker {
-                    image 'automation'
-                    reuseNode true
-                }
-            }
             steps {
-                dir('tests') {
-                    sh 'robot --version'
-                    sh 'ls'
-                    sh 'robot -d results .'
 
-                }
+                sh 'python --version || echo "Ei pythonia"'
+                sh 'robot --version || echo "Robot ei löydy"'
+                sh 'pwd'
+                sh 'ls -R'
+
+
+                sh 'cd tests && ls'
+                sh 'cd tests && robot -d results .'
             }
-
         }
     }
 }
