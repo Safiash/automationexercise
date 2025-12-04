@@ -12,9 +12,11 @@ RUN apt-get update && apt-get install -y \
     libwayland-server0 fonts-unifont fonts-liberation \
     && rm -rf /var/lib/apt/lists/*
 
-ADD requirements.txt /
-RUN pip3 install -r requirements.txt
+# asennetaan python-kirjastot
+COPY requirements.txt /requirements.txt
+RUN pip3 install -r /requirements.txt
 
+# tänne Jenkins mounttaa workspacen, ei tarvitse kopioida testejä
 WORKDIR /home/automationexercise
 
 # jätetään CMD neutraaliksi, pipeline päättää mitä ajetaan
