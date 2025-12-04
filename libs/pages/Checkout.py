@@ -13,6 +13,7 @@ class Checkout:
     class Checkoutlocators:
         PLACE_ORDER="//a[@class='btn btn-default check_out']"
         PAYMENT="//h2[@class='heading']"
+        DELIVERY_ADDRESS="//ul[@id='address_delivery']//li[contains(@class,'address_address1')][normalize-space(.)!=''][1]"
 
     # ===================================================
     #                   --- SETUP ---
