@@ -1,23 +1,25 @@
 pipeline {
-    agent none
+    agent {
+        dockerfile {
+            filename 'Dockerfile' 
+            dir '.'                 
+            additionalBuildArgs '--pull'
+        }
+    }
 
     stages {
         stage('UI Tests') {
-            agent {
-                docker {
-                    filename 'Dockerfile'   // tai joku muu nimi jos eri
-                    additionalBuildArgs '--pull'
-                }
-            }
             steps {
-                dir('tests') {
-                    sh 'robot --version'
-                    sh 'ls'
-                    sh 'robot -d results .'
 
-                }
+                sh 'python --version || echo "Ei pythonia"'
+                sh 'robot --version || echo "Robot ei löydy"'
+                sh 'pwd'
+                sh 'ls -R'
+
+
+                sh 'cd tests && ls'
+                sh 'cd tests && robot -d results .'
             }
-
         }
     }
 }
