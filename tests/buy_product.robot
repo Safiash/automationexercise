@@ -14,9 +14,11 @@ Test Setup    Run Keywords    Open Home Page    headless=True
 ...              AND    Set Selenium Implicit Wait    10s
 Test Teardown    Close Browser
 
+
 *** Test Cases ***
 
 TC007 Buy Product When Signed In
+    [Tags]    e2e    regression    critical
     [Documentation]    Testing product purchasing via the products page. 
     Login As Valid User    ${EMAIL}    ${PASSWORD}
     Click Products Link From Homepage
@@ -26,7 +28,8 @@ TC007 Buy Product When Signed In
     Pay Order    ${USERNAME}
     Go To Main Page
 
-TC042 Purchasing Product With Incomplete Payment Information 
+TC042 Purchasing Product With Incomplete Payment Information
+    [Tags]    e2e    regression    critical 
     [Documentation]    Test purchasing the product with incomplete payment information, name missing. 
     Login As Valid User    ${EMAIL}    ${PASSWORD}
     Click Products Link From Homepage

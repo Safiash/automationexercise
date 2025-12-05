@@ -13,6 +13,7 @@ Test Teardown    Close Browser
 
 *** Test Cases ***
 TC002/TC013 Login With Valid Credentials
+    [Tags]    e2e    regression    critical
     [Documentation]    Test for login with valid credentials
     Click Sign Up Login Link From Homepage
     Fill Login Form    ${EMAIL}    ${PASSWORD}
@@ -21,6 +22,7 @@ TC002/TC013 Login With Valid Credentials
     Press Logout Button
 
 TC003 Login With Invalid Credentials
+    [Tags]    e2e    regression    critical
     [Documentation]    Negative login test with invalid credentials
     Click Sign Up Login Link From Homepage
     Fill Login Form    wrong@wrong.com    wrongpassword
@@ -28,6 +30,7 @@ TC003 Login With Invalid Credentials
     Check Login Error Message Is Visible
 
 TC018 Login With Empty Credentials
+    [Tags]    e2e    regression    critical
     [Documentation]    Negative login test with empty credentials
     Click Sign Up Login Link From Homepage
     Fill Login Form        ${EMPTY}    ${EMPTY}
@@ -35,6 +38,7 @@ TC018 Login With Empty Credentials
     Check Please Fill All Fields Message Is Visible
 
 TC019 Login With Invalid Password
+    [Tags]    e2e    regression    critical
     [Documentation]    Negative login test with invalid password
     Click Sign Up Login Link From Homepage
     Fill Login Form    ${EMAIL}    wrongpassword

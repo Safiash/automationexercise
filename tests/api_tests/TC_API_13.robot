@@ -8,6 +8,7 @@ ${NEW_NAME}          Updated Test User
 
 *** Test Cases ***
 TC_API_13_PUT_Update_User_Account
+    [Tags]    regression    api
     [Documentation]    API 13: PUT updateAccount käyttäjätilin tietojen päivittämiseen.
     Update Account Should Return 200
     ...    ${NEW_NAME}

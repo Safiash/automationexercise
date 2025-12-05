@@ -15,11 +15,10 @@ Test Teardown    Close Browser
 *** Test Cases ***
 
 TC031 Coose A Product From Recommended Items
+    [Tags]    e2e    regression
     [Documentation]    Test scrolling to the bottom of the page, to the recommended item section,
     ...     selects a product from there, goes to the cart, checks and clears the cart.
     Scroll Down To Recommended Items
     Choose Recommended Item
     Check Cart
     Empty Shopping Cart
-
-    

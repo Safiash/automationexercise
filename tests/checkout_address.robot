@@ -18,6 +18,7 @@ Test Teardown    Close Browser
 *** Test Cases ***
 
 TC033 Checkout Address Is Correct
+    [Tags]    e2e    regression    critical
     [Documentation]    Check that address is correct and the same than with registeration
     Sign Up New User
     Click Products Link From Homepage
