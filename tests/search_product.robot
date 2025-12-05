@@ -14,6 +14,7 @@ Test Teardown    Close Browser
 
 *** Test Cases ***
 TC006 Search For A Product
+    [Tags]    e2e    regression
     [Documentation]    Open the Automation Exercise products page and search for a product
     ${product_name}=          Set Variable    Fancy Green Top
     Login As Valid User       ${EMAIL}    ${PASSWORD}

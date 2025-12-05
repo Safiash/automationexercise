@@ -11,9 +11,11 @@ Test Setup       Run Keywords    Open Home Page    headless=True
 ...              AND    Set Selenium Implicit Wait    10s
 Test Teardown    Close Browser
 
+
 *** Test Cases ***
 
 TC014 Contact Us When Signed In
+    [Tags]    e2e    regression
     [Documentation]    Fills in the contact us form and sends it
     ${name}=    Set Variable    Pekka
     ${subject}=    Set Variable    666

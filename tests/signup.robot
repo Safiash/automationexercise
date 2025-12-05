@@ -24,22 +24,27 @@ Test Teardown    Close Browser
 
 *** Test Cases ***
 TC005 Delete User
+    [Tags]    e2e    regression    critical
     [Documentation]    Sign up new user and delete it
     Delete Account    
 
 TC004 Create New User With Valid Default Values
+    [Tags]    e2e    regression    critical
     [Documentation]    Sign up with default values
     Sign Up New User
 
 TC004 Create New User With Valid Credentials
+    [Tags]    e2e    regression    critical
     [Documentation]    Sign up with given values from dictionary
     Sign Up New User    &{PERSON2}
 
 TC004 Create New User2 With Valid Credentials
+    [Tags]    e2e    regression    critical
     [Documentation]    Sign up with given values from dictionary
     Sign Up New User    &{PERSON1}
     
 TC001 Create User With Existing Email
+    [Tags]    e2e    regression    critical
     [Documentation]    Nevative test to sign in with existing invalid credentials
     Click Signup Login Link From Homepage
     Attempt Signup With Existing Email   ${EMAIL}    ${USERNAME}
